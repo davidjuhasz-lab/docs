@@ -1,0 +1,46 @@
+---
+title: "Understanding Embeddings"
+description: "Text embeddings are at the heart of the "Retrieval" in Retrieval-Augmented Generation. While the concept is complex, the core idea is simple: embeddings are a way to represent the meaning of a piec..."
+---
+
+# Understanding Embeddings
+
+Text embeddings are at the heart of the "Retrieval" in Retrieval-Augmented Generation. While the concept is complex, the core idea is simple: embeddings are a way to represent the **meaning** of a piece of text as a list of numbers.
+
+## What is an Embedding?
+
+An embedding is a **vector** (a list of numbers) that captures the semantic essence of a text. An embedding model, like OpenAI's `text-embedding-3-small`, is a neural network trained to take a string of text as input and produce one of these vectors as output.
+
+For example, the text "How do I create a new agent?" might be converted into a vector like this (simplified):
+
+`[0.012, -0.45, 0.23, ..., -0.89]`
+
+This vector can have hundreds or thousands of dimensions, each capturing a different nuance of the text's meaning.
+
+## The Principle of Semantic Proximity
+
+The key property of embeddings is that **texts with similar meanings will have similar vectors**.
+
+If you were to plot these vectors in a high-dimensional space, the vectors for "How do I make a new assistant?" and "What is the process for agent creation?" would be located very close to each other. In contrast, the vector for "What is the capital of France?" would be very far away.
+
+This "closeness" can be measured mathematically using techniques like **cosine similarity**. This is the fundamental mechanism that powers semantic search.
+
+## How Embeddings Power the RAG Pipeline
+
+Embeddings are used in two key places in the Peak RAG pipeline:
+
+### 1. During Ingestion (Indexing)
+
+- When a document is uploaded and chunked, each individual text chunk is passed through the embedding model.
+- The resulting vector (embedding) for each chunk is stored in the Weaviate vector database alongside the original text.
+- This process creates a searchable "map" of the semantic meaning of your entire knowledge base.
+
+### 2. During Retrieval (Querying)
+
+- When a user asks a question, their query text is passed through the **exact same** embedding model.
+- This creates a query vector that represents the meaning of the question.
+- The system then uses this query vector to search Weaviate for the document chunk vectors that are "closest" to it in the vector space.
+- These closest chunks are the most semantically relevant pieces of information in your knowledge base for answering the user's question.
+
+By converting both your documents and your user's questions into this shared mathematical format, embeddings allow the system to match concepts and ideas, not just keywords. This is what makes the retrieval process so powerful and accurate.
+

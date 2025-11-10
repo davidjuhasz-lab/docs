@@ -1,0 +1,61 @@
+---
+title: "15 - User Management"
+description: "This guide provides a comprehensive overview of the UI for managing users, roles, and application access."
+---
+
+# 15 - User Management
+
+This guide provides a comprehensive overview of the UI for managing users, roles, and application access.
+
+---
+
+## Part 1: The User Management Panel
+
+### Navigation and Layout
+
+- **Path**: The User Management panel is located at the bottom of the main **Applications Dashboard**.
+- **Visibility**: This panel is only visible to users with the **Admin** role.
+- **Primary Action**: At the top right is the **"+ Add user"** button.
+
+### The Users Table
+
+| Column Header    | Description                                                                                                                                                                                                                                          |
+| :--------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **User**         | The user's username and an avatar with their first initial.                                                                                                                                                                                          |
+| **Applications** | For `Backoffice` users, this shows which applications they can access.                                                                                                                                                                               |
+| **Email**        | The user's email address.                                                                                                                                                                                                                            |
+| **Actions**      | A set of buttons for managing the user. These actions are only available for users with the `Backoffice` role. - **Edit** (`Pencil` icon): Opens the "Edit user" modal. - **Delete** (`Trash` icon): Opens a confirmation dialog to delete the user. |
+
+### Filtering and Searching
+
+- **Search Bar**: You can search for users by `username`.
+- **Application Filter**: A dropdown is available to filter the user list by application.
+
+---
+
+## Part 2: Managing Users
+
+### Adding a New User
+
+- **Action**: Click the **"+ Add user"** button to open the "Create user" modal.
+
+| Field                   | Placeholder         | Required                      |
+| :---------------------- | :------------------ | :---------------------------- |
+| `Email`                 | `Enter email`       | Yes                           |
+| `Username`              | `Enter username`    | Yes                           |
+| `First Name (optional)` | `Enter first name`  | No                            |
+| `Last Name (optional)`  | `Enter last name`   | No                            |
+| `Password`              | `Enter password`    | Yes (min 6 characters)        |
+| `Confirm Password`      | `Re-enter password` | Yes (must match)              |
+| `Role`                  | `Select role`       | Yes (`Admin` or `Backoffice`) |
+| `Applications`          | N/A                 | Yes (for `Backoffice` role)   |
+
+### Editing a User
+
+- **Action**: Click the **Edit icon** (`Pencil`) in a user's row.
+- **Editable Fields**: You can edit a user's role and application access. Username and password are not editable here.
+
+### Deleting a User
+
+- **Action**: Click the **Delete icon** (`Trash`) in a user's row.
+- **Effect**: This action removes the user's platform permissions and requires confirmation.

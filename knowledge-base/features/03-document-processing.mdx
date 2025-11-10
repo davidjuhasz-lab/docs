@@ -1,0 +1,77 @@
+---
+title: "Document Processing Agents"
+description: "The Peak RAG platform includes a suite of specialized agent schemas designed for complex, multi-step document processing workflows. These agents leverage Large Language Models (LLMs) not for conver..."
+---
+
+# Document Processing Agents
+
+The Peak RAG platform includes a suite of specialized agent schemas designed for complex, multi-step document processing workflows. These agents leverage Large Language Models (LLMs) not for conversation, but for sophisticated analysis, extraction, and validation tasks, often by calling dedicated Python microservices.
+
+## The Document Processing Pipeline
+
+Unlike `assistant` agents, document processing agents typically operate asynchronously on a single document (or a set of documents) at a time. The general workflow is:
+
+1.  A document is uploaded and ingested.
+2.  A user or an automated process triggers a document agent, passing it the document ID.
+3.  The agent's schema-specific logic is invoked in the backend.
+4.  The agent loads the document's text content.
+5.  It constructs a highly specific prompt instructing an LLM to perform an analysis or extraction task.
+6.  The result, often in structured JSON format, is returned.
+
+## Key Document Agent Schemas
+
+### Document Validation Agents
+
+The platform provides several specialized agents for document validation and data extraction workflows. These agents work together to process, validate, and extract information from documents.
+
+#### `document-ocr`
+
+- **Purpose**: To perform Optical Character Recognition (OCR) on image-based documents (e.g., scanned PDFs, JPGs).
+- **Technical Implementation**: This agent schema acts as a wrapper around a specialized OCR model, which could be a cloud service like Azure Document Intelligence or a self-hosted model. It is configured with parameters like the document's DPI. The agent sends the document to the OCR service and receives the extracted raw text, which is then stored and made available for other agents.
+- **Core Logic**: The primary logic is not an LLM call for the OCR itself, but rather orchestrating the call to the external OCR engine. An LLM may be used subsequently to clean up or structure the raw OCR output.
+
+#### `document-type-recognizer`
+
+- **Purpose**: To classify a document into one of several predefined categories.
+- **Technical Implementation**: This agent is configured with a JSON schema that defines the possible document types and provides a description for each.
+  ```json
+  {
+    "types": [
+      { "name": "Invoice", "description": "A bill for goods or services." },
+      { "name": "Contract", "description": "A legally binding agreement." }
+    ]
+  }
+  ```
+- **Core Logic**: The agent extracts the document's text and passes it to an LLM with a prompt that includes the classification schema. The prompt instructs the LLM to analyze the text and return the `name` of the most appropriate type. This leverages the LLM's ability to understand the nuances of document structure and content for classification.
+
+#### `document-evaluation`
+
+- **Purpose**: To extract structured data from a document based on a user-defined schema.
+- **Technical Implementation**: This is one of the most powerful document agents. The user provides a JSON schema defining the exact data fields to be extracted, including their names, types, and descriptions.
+  ```json
+  {
+    "fields": [
+      { "name": "invoiceNumber", "type": "string", "description": "The unique identifier for the invoice." },
+      { "name": "totalAmount", "type": "number", "description": "The total amount due." }
+    ]
+  }
+  ```
+- **Core Logic**: The agent's backend logic dynamically constructs a prompt that instructs the LLM to act as a data-entry specialist. It passes the document text and the extraction schema to the LLM, commanding it to read the document and fill in the JSON object according to the schema. This turns the unstructured document text into a structured, machine-readable JSON output.
+
+### `document-crosscheck`
+
+- **Purpose**: To validate the consistency of information across multiple documents.
+- **Technical Implementation**: This agent takes two or more document IDs as input.
+- **Core Logic**: The agent extracts the text from all provided documents. It then sends a prompt to the LLM that includes the text of all documents and a specific instruction for what to cross-reference. For example: "Given Document A (an ID card) and Document B (a utility bill), verify that the `name` and `address` fields are identical in both. Report any discrepancies." The LLM performs the comparison and returns a summary of its findings.
+
+### `invoice-categorization`
+
+- **Purpose**: To automate the classification of financial documents, specifically invoices.
+- **Technical Implementation**: This schema is designed for financial workflows. It is configured with a system prompt and a company profiling prompt.
+- **Core Logic**: The agent uses an LLM to perform two main tasks: first, it identifies the company that issued the invoice (company profiling). Second, it categorizes the invoice into predefined expense categories (e.g., "Utilities," "Software," "Marketing"). This is achieved through specialized prompts that guide the LLM to extract and classify financial data.
+
+### `document-bulk-validation`
+
+- **Purpose**: To orchestrate the validation of a complex set of documents where dependencies exist.
+- **Technical Implementation**: This agent is configured with a list of required document types and their dependencies (e.g., "Document B cannot be validated until Document A is validated").
+- **Core Logic**: This schema acts as a workflow engine. It does not perform validation itself, but rather invokes other document agents (like `document-evaluation`) in the correct, dependency-aware order. It aggregates the results from all individual validations to provide a single pass/fail status for the entire document package.

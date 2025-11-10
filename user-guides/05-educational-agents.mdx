@@ -1,0 +1,48 @@
+---
+title: "05 - Creating Educational Agents"
+description: "This guide provides a comprehensive walkthrough of creating the two educational agent types, detailing every UI element for each."
+---
+
+# 05 - Creating Educational Agents
+
+This guide provides a comprehensive walkthrough of creating the two educational agent types, detailing every UI element for each.
+
+---
+
+## The Agent Creation Process
+
+Both educational agents are created using the same multi-step modal.
+
+1.  **Navigate to Agents**: Go to the **Agents** page from your application dashboard.
+2.  **Launch Modal**: Click the **"Create Agent"** button.
+3.  **Select Schema**: In the "Basic details" section, choose the appropriate schema. This choice determines which configuration fields appear in the "Specifications" section.
+
+---
+
+## 1. Educational Personalization Agent (`edu-personalization`)
+
+This agent adapts existing educational content to match a learner's profile.
+
+| Field               | UI Element   | Description                                                                                        |
+| :------------------ | :----------- | :------------------------------------------------------------------------------------------------- |
+| **LLM Model**       | Dropdown     | The AI model for personalization. `gpt-4o` is recommended for high-quality, nuanced output.        |
+| **Use Definitions** | Switch       | Enable to ensure consistent use of a custom glossary of terms.                                     |
+| **TopP**            | Number Input | Controls vocabulary diversity. A default of `0.6` is a good starting point.                        |
+| **Temperature**     | Number Input | Controls creativity. `0.7` offers a balance between structured and flexible content.               |
+| **System Prompt**   | Text Area    | The core instructions defining how the agent should personalize content based on learner profiles. |
+
+---
+
+## 2. Educational Syllabus Generation Agent (`edu-syllabus`)
+
+This agent generates a structured curriculum based on a set of requirements.
+
+| Field                  | UI Element   | Description                                                                            |
+| :--------------------- | :----------- | :------------------------------------------------------------------------------------- |
+| **LLM Model**          | Dropdown     | The AI model for syllabus creation. `gpt-4o` is recommended for complex planning.      |
+| **Use Definitions**    | Switch       | Enable to standardize terminology within the syllabus.                                 |
+| **TopP**               | Number Input | Use lower values (e.g., `0.5`) for a more focused and consistent structure.            |
+| **Temperature**        | Number Input | Use lower values (e.g., `0.7`) to reduce randomness in the output.                     |
+| **Callback API Host**  | Text Input   | (Optional) An endpoint to notify when syllabus generation is complete.                 |
+| **Courses API Host**   | Text Input   | (Optional) An external API to fetch course metadata from another system (like an LMS). |
+| **Lesson Preferences** | Text Area    | Defines the required structure for each lesson in the syllabus.                        |

@@ -1,0 +1,60 @@
+---
+title: "Definitions Feature"
+description: "The "Definitions" feature provides a way to inject specific, high-priority information into an agent's context, ensuring it has immediate and accurate knowledge of key terms, acronyms, or concepts ..."
+---
+
+# Definitions Feature
+
+The "Definitions" feature provides a way to inject specific, high-priority information into an agent's context, ensuring it has immediate and accurate knowledge of key terms, acronyms, or concepts without relying on the standard RAG retrieval process.
+
+## Technical Implementation
+
+Definitions are essentially a form of **prompt augmentation** that happens before the main RAG pipeline is even invoked. They are stored as key-value pairs (`term` and `description`) in the PostgreSQL database, linked to a specific agent.
+
+### Enabling Definitions
+
+The feature is enabled on a per-agent basis via the **"Use Definitions"** switch in the "Specifications" section of the agent configuration.
+
+### How Definitions are Used
+
+When a user sends a query to an agent with Definitions enabled, the system augment's the agent's context for **every message** in that conversation. The sequence is:
+
+1.  **Fetch All Definitions**: Before processing the user's query, the backend fetches **all** definitions associated with the agent from the database.
+2.  **System Prompt Injection**: These definitions are compiled into a formatted block of text. This block is then **prepended to the System Prompt** for that specific interaction.
+3.  **Augmented Prompt Execution**: The agent executes its normal lifecycle, but its master instructions now contain the full list of its definitions, giving it immediate access to this information.
+
+**There is no keyword matching against the user's query.** If the feature is enabled, all definitions are injected into the prompt for every single turn of the conversation.
+
+**Example Flow:**
+
+- **Defined Terms**:
+  - `RAG`: `Retrieval-Augmented Generation...`
+  - `LLM`: `Large Language Model...`
+- **User Query**: `"What is RAG?"`
+- **Backend Action**: Both the `RAG` and `LLM` definitions are fetched.
+- **Modified System Prompt Sent to LLM**:
+  ```
+  System:
+  # DEFINITIONS
+  - RAG: Retrieval-Augmented Generation...
+  - LLM: Large Language Model...
+  ---
+  # ORIGINAL SYSTEM PROMPT
+  You are a helpful AI assistant...
+  ...
+  ```
+
+## Use Cases and Rationale
+
+The primary purpose of Definitions is to ensure an agent **always** has a specific set of foundational knowledge at its immediate disposal. This is useful for information that is:
+
+- **Critically Important**: Certain facts or definitions that must be 100% accurate every time.
+- **Frequently Accessed**: Core concepts that appear in many conversations.
+- **Hard to Retrieve**: Acronyms or short terms that can be difficult to find reliably with semantic search, as they may lack sufficient context for a strong vector match.
+
+By bypassing the retrieval pipeline, the Definitions feature ensures this critical information is always available in the agent's immediate context, leading to more consistent and reliable responses for foundational concepts. It acts as a form of "hard-coded memory" for the agent.
+
+## Limitations
+
+- **No Keyword Matching**: The system does not look for keywords in the user's query. If the feature is on, all definitions are injected every time.
+- **Context Window Cost**: Because all definitions are injected into every prompt, this feature can significantly increase token consumption, especially for agents with many or lengthy definitions. It should be used judiciously for a small number of critical terms.

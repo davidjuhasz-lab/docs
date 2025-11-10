@@ -1,0 +1,57 @@
+---
+title: "11 - Quiz Mode Setup"
+description: "This guide provides a comprehensive overview of the UI for configuring Quiz Mode, a feature for turning an assistant agent into an interactive learning tool."
+---
+
+# 11 - Quiz Mode Setup
+
+This guide provides a comprehensive overview of the UI for configuring **Quiz Mode**, a feature for turning an assistant agent into an interactive learning tool.
+
+---
+
+### Implementation Status
+
+**Note**: The admin panel provides the UI for configuring Quiz Mode, but it does not include an interactive quiz runtime. This setup is intended for use in custom workflows.
+
+---
+
+## Part 1: Enabling Quiz Mode
+
+Quiz Mode is an optional feature for `assistant` agents.
+
+1.  **Open the Agent Modal**: Create a new agent or edit an existing one.
+2.  **Navigate to Specifications**: In the modal, proceed to the **"Specifications"** section.
+3.  **Enable the Feature**: Find and turn on the **"Quiz Mode Enabled"** switch.
+
+Once enabled, a **"Quiz"** tab will appear in the modal's navigation, containing all the settings for this feature.
+
+---
+
+## Part 2: Quiz Mode Configuration
+
+All settings are found in the **"Quiz"** section of the agent configuration modal.
+
+### General Settings
+
+| Field                                 | UI Element   | Description                                                                                                      |
+| :------------------------------------ | :----------- | :--------------------------------------------------------------------------------------------------------------- |
+| **Questions per day**                 | Number Input | Sets a daily limit on how many questions the agent will generate for a single user (default: 1).                 |
+| **Question Generation System Prompt** | Text Area    | High-level instructions on _how_ to generate questions, applying to all question types.                          |
+| **Evaluation System Prompt**          | Text Area    | Instructions on _how to evaluate_ a user's answers, guiding the feedback provided.                               |
+| **Topics**                            | Text Area    | A list of topics (one per line) to focus the quiz questions. If empty, questions are generated from all content. |
+| **Enable parallel generation**        | Checkbox     | (Default: on) When enabled, the system generates multiple questions in advance to speed up the user experience.  |
+
+### Question Type Configuration
+
+The UI displays each question type in a separate card with a title, an enable/disable switch, and a text area for a specific prompt.
+
+| Question Type                   | Prompt Label                             | Description                                                                |
+| :------------------------------ | :--------------------------------------- | :------------------------------------------------------------------------- |
+| **Concept Definition Matching** | `Prompt for Concept Definition Matching` | Asks the user to match terms to their correct definitions.                 |
+| **Fill in the Blank**           | `Prompt for Fill in the Blank`           | Presents a sentence with a key word or phrase missing.                     |
+| **Multi Level Selection**       | `Prompt for Multi Level Selection`       | A complex multiple-choice question that may have multiple correct answers. |
+| **Case Study Analysis**         | `Prompt for Case Study Analysis`         | Presents a short, realistic scenario for the user to analyze.              |
+| **Hypothetical Scenario**       | `Prompt for Hypothetical Scenario`       | Asks the user to respond to a "what if" situation.                         |
+| **Error Correction**            | `Prompt for Error Correction`            | Presents text containing a factual error for the user to find and correct. |
+| **Decision Tree**               | `Prompt for Decision Tree`               | Asks the user to map out a series of decisions and their consequences.     |
+| **Define Concept**              | `Prompt for Define Concept`              | Asks the user to explain a key concept in their own words.                 |

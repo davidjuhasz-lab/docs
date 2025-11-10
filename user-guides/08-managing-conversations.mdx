@@ -1,0 +1,58 @@
+---
+title: "08 - Managing Conversations"
+description: "This guide provides a comprehensive overview of the UI for viewing, filtering, and analyzing conversation threads."
+---
+
+# 08 - Managing Conversations
+
+This guide provides a comprehensive overview of the UI for viewing, filtering, and analyzing conversation threads.
+
+---
+
+## Part 1: The Threads Page
+
+### Navigation and Layout
+
+- **Path**: From your application dashboard, click **"Threads"** in the left navigation menu.
+- **Header**:
+  - The main page title is "**Threads**".
+  - The content area has a title "**Threads**" and a subtitle "**Manage and moderate threads**".
+- **Content**: The page is dominated by a large table listing all conversation threads.
+
+---
+
+## Part 2: The Threads Table
+
+### Searching and Filtering
+
+Above the table are several controls for refining the list:
+
+- **Search Bar**: A text input to search for threads by User ID, Agent ID, or keywords from the message content.
+- **Filter Dropdowns**: Allows you to filter the list to show only threads matching a specific **User ID** or **Agent ID**.
+
+### Table Columns
+
+The table is sortable by clicking on any column header.
+
+| Column Header     | Description                                                                                                                                                                                                                   |
+| :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Started by**    | The ID of the user who initiated the conversation.                                                                                                                                                                            |
+| **Agent ID**      | The ID of the agent that handled the conversation.                                                                                                                                                                            |
+| **Thread ID**     | The unique ID for the conversation thread.                                                                                                                                                                                    |
+| **Start date**    | The date the conversation began.                                                                                                                                                                                              |
+| **(+) Feedbacks** | Shows the count of positive feedback (`ThumbsUp` icon) received in the thread, indicated by a green dot.                                                                                                                      |
+| **(-) Feedbacks** | Shows two counts for negative feedback, both indicated by a red dot: 1. The count of negative feedback without comments (`ThumbsDown` icon). 2. The count of negative feedback that includes comments (`MessageCircle` icon). |
+
+---
+
+## Part 3: Viewing a Conversation
+
+- **Action**: Click on any row in the threads table.
+- **Result**: A sheet slides in from the right side, showing the full conversation history.
+
+### Thread Details Sheet
+
+- **Header**: Displays the **Thread ID**.
+- **Messages**: A chronological list of messages, with user messages and agent responses clearly distinguished.
+
+This view is for reviewing the conversation's content. Technical details like token counts or tool results are not displayed here.

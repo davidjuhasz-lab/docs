@@ -1,0 +1,47 @@
+---
+title: "Web Widget"
+description: "The Peak RAG Web Widget is a pre-built, embeddable JavaScript application that allows you to deploy an assistant agent onto any website with a single code snippet. It provides a full-featured chat ..."
+---
+
+# Web Widget
+
+The Peak RAG Web Widget is a pre-built, embeddable JavaScript application that allows you to deploy an `assistant` agent onto any website with a single code snippet. It provides a full-featured chat interface that connects directly to the platform's backend.
+
+## Architecture
+
+The widget is a standalone application built with **Vite and React**. It is designed to be lightweight and to avoid interfering with the host website's existing styles or JavaScript.
+
+- **Isolation**: The widget renders itself into a **Shadow DOM**, which encapsulates its styles and scripts. This prevents CSS conflicts, where the host page's styles might accidentally affect the widget's appearance, or vice-versa.
+- **Communication**: It communicates with the Peak RAG backend via a secure WebSocket connection for real-time, bidirectional messaging. This is more efficient than traditional HTTP polling for a chat application.
+- **Build Output**: The build process compiles the entire widget into a single JavaScript file (`peak-rag-assistant.js`), which is what you include on your website.
+
+## How to Embed the Widget
+
+To embed the widget, you add a `<script>` tag to your website's HTML, typically just before the closing `</body>` tag.
+
+**There is no UI in the admin dashboard to generate this snippet.** It must be constructed manually.
+
+```html
+<script src="<URL_TO_YOUR_HOSTED_WIDGET_JS_FILE>" id="peak-rag-assistant-script" defer data-agent-id="<YOUR_AGENT_ID>" data-base-url="<URL_TO_YOUR_PEAK_RAG_API>" data-user-id="(optional) <UNIQUE_USER_IDENTIFIER>"></script>
+```
+
+### Configuration via `data-` Attributes
+
+The widget is configured entirely through `data-` attributes on the script tag:
+
+- `src`: The URL where the `peak-rag-assistant.js` file is hosted. This will be the address of your Peak RAG deployment.
+- `data-agent-id` **(Required)**: The unique ID of the `assistant` agent you want the widget to connect to.
+- `data-base-url` **(Required)**: The base URL of the Peak RAG backend API. The widget will use this to construct the WebSocket connection URL.
+- `data-user-id` (Optional): A unique, stable identifier for the end-user.
+  - If provided, the widget will associate the conversation with this user, allowing them to resume their conversation history across different sessions or devices.
+  - If omitted, the user is treated as anonymous. A temporary ID is generated and stored in the browser's local storage, so conversations will persist for that user on that specific browser, but not across devices.
+- **Styling Attributes** (Optional): You can also pass in basic styling information via data attributes to customize the widget's appearance.
+  - `data-primary-color`: Sets the main theme color for buttons and headers.
+  - `data-position`: (e.g., `bottom-right`) Controls where the chat launcher button appears.
+
+## Functionality
+
+- **Conversation Persistence**: The widget automatically handles thread creation and management. It stores the `threadId` in local storage to persist the conversation across page reloads.
+- **Real-Time Updates**: Thanks to the WebSocket connection, the widget shows typing indicators, streams in agent responses as they are generated, and can handle real-time events pushed from the server.
+- **Automatic Updates**: The widget itself does not need to be updated on your website. When you make changes to your agent's configuration (e.g., updating the system prompt) in the Peak RAG admin dashboard, those changes are reflected in the widget's behavior instantly, as all the core logic resides on the backend.
+

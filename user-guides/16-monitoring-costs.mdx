@@ -1,0 +1,54 @@
+---
+title: "17 - Monitoring Costs"
+description: "This guide provides a comprehensive overview of the UI for tracking and optimizing AI model costs on the Metrics dashboard."
+---
+
+# 17 - Monitoring Costs
+
+This guide provides a comprehensive overview of the UI for tracking and optimizing AI model costs on the **Metrics** dashboard.
+
+---
+
+## Part 1: The Metrics Dashboard
+
+### Navigation and Filtering
+
+- **Path**: Navigate to **Application → Metrics** from the left sidebar.
+- **Header**: The page has a title, "**Metrics**," and a subtitle, "**Track, manage and forecast your customers and orders.**"
+- **Dashboard Filters**:
+  - **Time Period Selector**: A dropdown to filter by `Last 24 hours`, `Last 7 days`, or `Last 30 days`.
+  - **Agent Filter**: A multi-select dropdown with the placeholder "**Select agents**" to view metrics for specific agents.
+
+---
+
+## Part 2: Key Metric Cards
+
+The top of the dashboard displays several key metric cards. Each includes an icon and a trend indicator.
+
+| Icon         | Title                            | Description                                             |
+| :----------- | :------------------------------- | :------------------------------------------------------ |
+| `DollarSign` | **Avg Cost / Call**              | The average cost for each successful agent interaction. |
+| `ArrowRight` | **Avg Prompt Tokens / Call**     | The average token count of the input sent to the model. |
+| `ArrowRight` | **Avg Completion Tokens / Call** | The average token count of the output from the model.   |
+| `ArrowRight` | **Avg Total Tokens / Call**      | The sum of average prompt and completion tokens.        |
+
+---
+
+## Part 3: Cost and Usage Charts
+
+The dashboard features two main charts for visualizing trends over the selected time period.
+
+### 1. Costs Chart
+
+- **Icon**: `DollarSign`
+- **Display**: A stacked area chart showing the total cost per day.
+- **Breakdown**: If multiple agents are selected, each agent's cost is represented by a different colored line.
+
+### 2. Calls Chart
+
+- **Icon**: `MessageSquareShare`
+- **Display**: A chart showing the number of successful, failed, and total agent calls per day.
+- **Legend**: The chart includes a color-coded legend to distinguish between:
+  - **Success** (Green dot)
+  - **Failed** (Red dot)
+  - **All** (Blue dot)

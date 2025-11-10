@@ -1,0 +1,103 @@
+---
+title: "02 - Creating an Assistant Agent"
+description: "This guide provides a step-by-step walkthrough of creating an assistant agent, covering every setting with examples based on the UI."
+---
+
+# 02 - Creating an Assistant Agent
+
+This guide provides a step-by-step walkthrough of creating an assistant agent, covering every setting with examples based on the UI.
+
+---
+
+## Part 1: The Agents Page
+
+### Navigation and Actions
+
+- **Path**: From your application dashboard, navigate to the **Agents** page using the left sidebar.
+- **Header**: The page has a title, "**Agent Management**," and a subtitle, "**Set up and manage Test sets**."
+- **Primary Action**: At the top right, there is a **"Create Agent"** button with a `Plus` icon.
+
+### The Agent List
+
+Existing agents are displayed in a list of cards. Each card shows:
+
+- An avatar with a `Bot` icon.
+- The agent's **Display Name**.
+- A badge with the agent's **Schema Name** (e.g., `assistant`).
+- A **"Preview"** button (`Eye` icon) to test the agent.
+- An **"Edit"** button (`Pencil` icon) to open the configuration modal.
+
+---
+
+## Part 2: The Agent Creation Modal
+
+- **Action**: Click the **"Create Agent"** button.
+- **Result**: A modal appears with the title "**Create agent**". This modal is a multi-step form with a progress bar at the top.
+
+### Modal Navigation
+
+- **Progress Bar**: Shows the sections: `Basic details`, `Specifications`, `Tools`, and `Quiz` (conditional).
+- **Cancel**: A button at the bottom left that closes the modal, discarding all changes.
+- **Back**: Appears on all steps except the first. Navigates to the previous section.
+- **Next**: Navigates to the next section after validating the current one.
+- **Finish**: Replaces the "Next" button on the final step. Saves the agent and closes the modal.
+
+---
+
+## Part 3: Modal Sections
+
+### Section 1: Basic details
+
+| Field            | UI Element | Description                                                                                                                   |
+| :--------------- | :--------- | :---------------------------------------------------------------------------------------------------------------------------- |
+| **Display name** | Text Input | The user-facing name for your agent (e.g., `TechGadgets Support Bot`). The non-editable Agent ID is generated from this name. |
+| **Schema**       | Dropdown   | Determines the agent's capabilities. For a support bot, select **`assistant`**.                                               |
+
+**Action**: Click **"Next"**.
+
+### Section 2: Specifications
+
+This section lists all the core AI settings for the agent.
+
+| Field                         | UI Element       | Description                                                                                                              |
+| :---------------------------- | :--------------- | :----------------------------------------------------------------------------------------------------------------------- |
+| **LLM Model**                 | Dropdown         | Select the language model (e.g., `gpt-4o-mini`).                                                                         |
+| **Use Definitions**           | Switch           | Enable if you have a custom glossary of terms.                                                                           |
+| **System Prompt**             | Text Area        | The core instructions defining the agent's role and personality.                                                         |
+| **Welcome Message**           | Text Input       | The initial message the agent sends to a user.                                                                           |
+| **Welcome Message Questions** | Text Input Array | Clickable suggestion prompts for the user. Press `Enter` after each one.                                                 |
+| **Use Suggested Questions**   | Switch           | If on, an additional **Suggested Question Prompt** text area appears for generating follow-up questions.                 |
+| **Use Prefilter**             | Switch           | If on, enables content filtering and reveals two additional fields: **Prefilter Prompt** and **Prefilter Fail Message**. |
+| **Use Reporting**             | Switch           | If on, reveals fields for configuring email reports (covered in a separate guide).                                       |
+| **Use Query Rewrite**         | Switch           | If on, reveals a **Query Rewrite Prompt** text area for improving user queries.                                          |
+| **Message History Limit**     | Number Input     | The number of previous messages the agent will remember for context (e.g., `20`).                                        |
+
+**Action**: Click **"Next"**.
+
+### Section 3: Tools
+
+This section is for configuring tools like knowledge base search.
+
+1.  **Action**: Click the **"Add Tool"** dropdown and select **"Retrieve Knowledge"**.
+2.  **Result**: A configuration card appears for the tool.
+
+| Field                   | UI Element   | Description                                                            |
+| :---------------------- | :----------- | :--------------------------------------------------------------------- |
+| **Result Limit**        | Number Input | Max number of search results passed to the AI (e.g., `10`).            |
+| **Search Limit**        | Number Input | Initial number of documents to retrieve before reranking (e.g., `20`). |
+| **Use Rerank**          | Switch       | Turn on to improve search result relevance.                            |
+| **Hybrid Search**       | Dropdown     | Select a search mode (e.g., `always-hybrid`).                          |
+| **Max Vector Distance** | Number Input | Sets the relevance threshold for semantic search (e.g., `1.5`).        |
+
+**Action**: Click **"Next"** (or **"Finish"** if Quiz Mode is disabled).
+
+### Section 4: Quiz (Conditional)
+
+- This section only appears if **"Use Quiz Mode"** was enabled in the "Specifications" section. See the Quiz Mode guide for details.
+
+---
+
+## Part 4: Finalize Creation
+
+- **Action**: Click the **"Finish"** button on the last step.
+- **Result**: The modal closes, and your new agent appears in the agents list, ready for previewing and editing.

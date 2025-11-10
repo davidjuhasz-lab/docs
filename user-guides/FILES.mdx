@@ -1,0 +1,464 @@
+---
+title: "User Guides - Complete File Structure"
+description: "This document shows the complete organization of all Peak RAG user guides with comprehensive page-by-page walkthroughs."
+---
+
+# User Guides - Complete File Structure
+
+This document shows the complete organization of all Peak RAG user guides with comprehensive page-by-page walkthroughs.
+
+## Complete File Tree
+
+```
+user-guides/
+├── 00-complete-user-guide-index.md          [Master Navigation - 363 lines]
+├── 01-creating-application.md                [COMPLETE - 253 lines]
+├── 02-creating-assistant-agent.md            [COMPLETE - 789 lines]
+├── 03-uploading-documents.md                 [COMPLETE - 752 lines]
+├── 04-document-processing-agents.md          [COMPLETE - 978 lines]
+├── 05-educational-agents.md                  [COMPLETE - 1,884 lines]
+├── 06-testing-agents.md                      [COMPLETE - 620+ lines]
+├── 07-managing-agent-versions.md             [COMPLETE - 1,000+ lines]
+├── 08-managing-conversations.md              [IN PROGRESS]
+├── 09-viewing-metrics.md                     [PLANNED]
+├── 10-managing-definitions.md                [PLANNED]
+├── 11-quiz-mode-setup.md                     [PLANNED]
+├── 12-agent-reporting.md                     [PLANNED]
+├── 13-embedding-widget.md                    [PLANNED]
+├── 14-api-access.md                          [PLANNED]
+├── 15-user-management.md                     [PLANNED]
+├── 16-monitoring-costs.md                    [COMPLETE - 2,143 bytes]
+├── 17-google-drive-integration.md            [COMPLETE - 2,052 bytes]
+├── 18-test-sets-evaluation.md                [COMPLETE - 2,008 bytes]
+├── 19-bulk-operations.md                     [COMPLETE - 2,800 bytes]
+├── 20-deployment-guide.md                    [COMPLETE - 26,153 bytes]
+└── FILES.md                                  [This file - Structure Documentation]
+```
+
+## File Descriptions
+
+### Foundation & Setup (Sections 00-03)
+
+**00-complete-user-guide-index.md** - Master Navigation
+
+- Complete overview of all 20 sections
+- TechGadgets example project introduction
+- Navigation by task/goal
+- Time estimates for each section
+- Status indicators for all guides
+
+**01-creating-application.md** - Application Setup [COMPLETE]
+
+- Creating the `techgadgets-support` application
+- Configuring document collection
+- Setting up API credentials
+- Understanding application structure
+- Initial configuration decisions
+
+**02-creating-assistant-agent.md** - Core Assistant Agent [COMPLETE]
+
+- Complete TechGadgets Support Bot configuration
+- 789 lines of detailed field-by-field instructions
+- System prompt design (2,000+ words)
+- Tool configurations (knowledge, prefilter, query rewrite, suggested questions)
+- Welcome message and quick questions
+- All 20+ settings with specific values and justifications
+
+**03-uploading-documents.md** - Knowledge Base Setup [COMPLETE]
+
+- Uploading 25 TechGadgets documents
+- Priority assignment strategy (1-10 scale)
+- Batch upload operations
+- Document processing pipeline
+- Verification and troubleshooting
+- Google Drive sync integration
+
+### Agent Creation (Sections 04-05)
+
+**04-document-processing-agents.md** - Automated Document Processing [COMPLETE]
+
+- OCR Agent: Text extraction from scanned documents
+- Document Type Recognizer: Automatic classification
+- Document Evaluation Agent: Field extraction with validation
+- Document Crosscheck Agent: Data verification and fraud detection
+- Complete pipeline integration (all 4 agents working together)
+- 978 lines of comprehensive configuration
+
+**05-educational-agents.md** - Training & Education [COMPLETE]
+
+- Personalization Agent: Adaptive learning content
+  - Beginner, Intermediate, Advanced adaptations
+  - Learning style customization (visual, hands-on, reading, auditory)
+  - Role-specific content (support, retail, technical, customer)
+- Syllabus Generation Agent: Curriculum creation
+  - Complete 8-hour course generation example
+  - Module and lesson structuring
+  - Learning objectives and exercises
+- 1,884 lines with full examples of personalized output
+
+### Testing & Refinement (Sections 06-07)
+
+**06-testing-agents.md** - Comprehensive Testing [COMPLETE]
+
+- Test interface walkthrough
+- 18 specific test cases with expected outputs
+- Knowledge retrieval testing
+- Conversation context verification
+- Boundary testing (prefilter, out-of-scope)
+- Tool usage verification
+- Edge case handling
+- Performance benchmarking
+- Test result documentation
+
+**07-managing-agent-versions.md** - Version Control [COMPLETE]
+
+- Creating new versions from existing configurations
+- A/B testing setup (traffic splitting)
+- Canary deployments (10%, 50%, 100% rollouts)
+- Side-by-side version comparison
+- Metrics tracking during tests
+- Statistical significance analysis
+- Rollback procedures
+- Version promotion strategies
+- Best practices for version management
+
+### Monitoring & Analysis (Sections 08-09)
+
+**08-managing-conversations.md** - Conversation Management [IN PROGRESS]
+Will cover:
+
+- Viewing conversation threads
+- Thread details and message history
+- User information and context
+- Filtering conversations (by date, agent, status, user)
+- Searching within conversations
+- Analyzing conversation patterns
+- Exporting conversation data
+- Identifying problematic interactions
+- Manual intervention in active conversations
+- Conversation tagging and categorization
+
+**09-viewing-metrics.md** - Analytics Dashboard [PLANNED]
+Will cover:
+
+- Application-level metrics overview
+- Agent performance dashboard
+- Usage statistics (requests, tokens, conversations)
+- Cost breakdown by agent and time period
+- Response time analysis
+- Success/failure rates
+- User satisfaction tracking
+- Popular queries and topics
+- Trend analysis over time
+- Custom report generation
+- Data export options
+
+### Advanced Features (Sections 10-12)
+
+**10-managing-definitions.md** - Custom Terminology [PLANNED]
+Will cover:
+
+- Creating definition entries
+- Definition structure (term, context, explanation)
+- Attaching definitions to agents
+- Definition injection behavior
+- Testing definition usage
+- Managing definition libraries
+- Version control for definitions
+- Best practices for technical terminology
+- Multi-language definitions (if applicable)
+
+**11-quiz-mode-setup.md** - Interactive Learning [PLANNED]
+Will cover:
+
+- Enabling quiz mode on agents
+- Question type configuration (multiple choice, true/false, short answer)
+- Questions per day limits
+- Topic selection for quiz questions
+- Evaluation criteria
+- Quiz result tracking
+- Adaptive difficulty
+- Quiz question generation prompts
+- Testing quiz interactions
+- Student progress tracking
+
+**12-agent-reporting.md** - Automated Reports [PLANNED]
+Will cover:
+
+- Email report configuration
+- Report frequency (daily, weekly, monthly)
+- Report field selection
+- Recipient management
+- Report templates
+- Custom report content
+- Automated delivery schedules
+- Report format options (HTML, PDF, CSV)
+- Sample reports with analysis
+- Troubleshooting report delivery
+
+### Integration & Deployment (Sections 13-14)
+
+**13-embedding-widget.md** - Web Integration [PLANNED]
+Will cover:
+
+- Widget SDK installation
+- Container setup on website
+- `initAssistant` configuration
+  - Application and agent selection
+  - User authentication
+  - Visual customization (colors, fonts, sizing)
+  - Behavior settings (auto-open, minimize, fixed position)
+  - Legal notice configuration
+  - Feedback button setup
+- Testing widget locally
+- Deploying to production website
+- Multiple widget instances
+- Custom styling and themes
+- Mobile responsiveness
+- Troubleshooting embedding issues
+
+**14-api-access.md** - Programmatic Integration [PLANNED]
+Will cover:
+
+- Understanding API credentials
+- Viewing API keys and secrets
+- Regenerating credentials safely
+- API endpoint structure
+- Authentication methods (Bearer token)
+- Making API requests (cURL, JavaScript, Python examples)
+- Request/response formats
+- Rate limiting and quotas
+- Error handling and status codes
+- Webhook configuration
+- API usage monitoring
+- Security best practices
+- Testing API endpoints
+
+### Administration (Sections 15-17)
+
+**15-user-management.md** - Team Access Control [PLANNED]
+Will cover:
+
+- Adding team members by email
+- Role assignment (Admin, Editor, Viewer)
+- Permission levels explained
+- Inviting users to application
+- Managing pending invitations
+- Removing user access
+- Changing user roles
+- Activity logging per user
+- Single Sign-On (SSO) configuration (if available)
+- User groups and bulk management
+- Access audit trail
+
+**16-monitoring-costs.md** - Budget Management [COMPLETE]
+
+- Cost dashboard overview
+- Usage breakdown by agent
+- Token usage tracking
+- Cost trends over time
+- Budget alerts configuration
+- Setting spending limits
+- Cost optimization strategies
+  - Model selection (gpt-4o vs gpt-4o-mini)
+  - Temperature and token limits
+  - Caching strategies
+- Detailed cost reports
+- Comparing costs across agents
+- Forecasting future costs
+
+### Advanced Workflows (Sections 17-20)
+
+**17-google-drive-integration.md** - Cloud Storage Integration [COMPLETE]
+
+- Connecting Google Drive account
+- OAuth authorization flow
+- Selecting folders to sync
+- Automatic sync frequency
+- Manual sync triggers
+- Sync status monitoring
+
+**18-test-sets-evaluation.md** - Quality Assurance [COMPLETE]
+
+- Creating test sets
+- Test case structure
+- Running evaluations against agents
+- Evaluation metrics (accuracy, relevance, completeness)
+- Comparing results across versions
+- Regression testing
+
+**19-bulk-operations.md** - Batch Processing [COMPLETE]
+
+- Bulk upload functionality
+- Bulk edit metadata
+- Bulk delete operations
+- Document selection and management
+- Progress tracking
+
+**20-deployment-guide.md** - Production Deployment [COMPLETE]
+
+- Complete DevOps and system administrator guide
+- Environment configuration (all services)
+- Database setup and migrations
+- Docker Compose deployment
+- Kubernetes deployment
+- Cloud platform deployments (Railway, AWS, Azure)
+- Security hardening
+- Monitoring and observability (Prometheus, Grafana)
+- Backup and disaster recovery
+- Scaling strategies
+- Troubleshooting guide
+- Maintenance procedures
+- Cost optimization
+- Comprehensive deployment checklist
+
+## Guide Characteristics
+
+All user guides follow these standards:
+
+### Structure
+
+1. **User Story**: Real-world scenario explaining why and when to use feature
+2. **Step-by-Step Instructions**: Every button, field, dropdown, with exact locations
+3. **Specific Values**: Concrete examples using TechGadgets project (never generic placeholders)
+4. **Visual Descriptions**: Detailed UI element descriptions (colors, positions, sizes)
+5. **Options Explained**: Every dropdown option with when to use it
+6. **Why These Choices**: Justification for each configuration decision
+7. **Verification Steps**: How to confirm each step worked correctly
+8. **Troubleshooting**: Common issues and solutions
+9. **Best Practices**: Tips and recommendations
+10. **Checklists**: Summary checklist before moving to next section
+
+### Detail Level
+
+- **Field-by-field**: Every input field explained (label, type, placeholder, validation)
+- **Button-by-button**: Every action button with exact location and outcome
+- **Click-by-click**: Every mouse action and resulting page transition
+- **Character counts**: Text field limits and current usage shown
+- **Processing times**: Expected duration for operations
+- **Visual feedback**: Loading states, success animations, error messages
+
+### Example Project Consistency
+
+All guides use the **TechGadgets Inc.** example:
+
+- Electronics retailer (smartphones, laptops, tablets, accessories)
+- TechGadgets Support Bot (main assistant agent)
+- 25 product documents (manuals, policies, FAQs)
+- Team members: Sarah Chen, Mike Rodriguez, Lisa Thompson
+- Specific products: UltraBook 15, TabPro 10, XPhone Pro, etc.
+
+### Code & Configuration
+
+- **Actual code**: Real configuration JSON, system prompts, API requests
+- **No pseudocode**: Everything is production-ready, copy-pasteable
+- **Complete examples**: Full responses, not truncated with "..."
+- **Real metrics**: Actual token counts, costs, processing times
+
+### Length & Comprehensiveness
+
+- **Target**: 700-1,000+ lines per guide (matching assistant agent guide length)
+- **No shortcuts**: Every feature, every option, every edge case covered
+- **Progressive detail**: Builds from simple to advanced within each guide
+- **Cross-references**: Links to related guides for additional context
+
+## Navigation Paths
+
+### By User Role
+
+**New Administrator** (setting up system):
+→ 00 Index → 01 Application → 03 Documents → 02 Assistant Agent → 06 Testing → 13 Widget
+
+**Support Manager** (monitoring quality):
+→ 08 Conversations → 09 Metrics → 19 Test Sets → 07 Versions
+
+**Developer** (integrating system):
+→ 14 API Access → 13 Widget → 16 Settings → 08 Conversations
+
+**Content Manager** (improving responses):
+→ 10 Definitions → 07 Versions → 06 Testing → 08 Conversations
+
+**Executive** (monitoring costs):
+→ 09 Metrics → 17 Costs → 08 Conversations
+
+### By Task
+
+**Initial Setup**: 01 → 03 → 02 → 06 → 13
+**Adding Features**: 10 → 11 → 12 → 06
+**Improving Quality**: 07 → 06 → 19 → 08
+**Scaling Operations**: 15 → 16 → 17 → 20
+**Integration**: 13 → 14 → 16 → 18
+
+## Completion Status
+
+### Completed Guides (12 of 20)
+
+- [x] 00 - Complete User Guide Index
+- [x] 01 - Creating Application
+- [x] 02 - Creating Assistant Agent
+- [x] 03 - Uploading Documents
+- [x] 04 - Document Processing Agents
+- [x] 05 - Educational Agents
+- [x] 06 - Testing Agents
+- [x] 07 - Managing Agent Versions
+- [x] 14 - Managing API Access
+- [x] 16 - Monitoring Costs
+- [x] 17 - Google Drive Integration
+- [x] 18 - Test Sets Evaluation
+- [x] 19 - Bulk Operations
+- [x] 20 - Deployment Guide (DevOps/SysAdmin)
+
+### In Progress (1)
+
+- [ ] 08 - Managing Conversations
+
+### Planned (7)
+
+- [ ] 09 - Viewing Metrics
+- [ ] 10 - Managing Definitions
+- [ ] 11 - Quiz Mode Setup
+- [ ] 12 - Agent Reporting
+- [ ] 13 - Embedding Widget
+- [ ] 15 - User Management
+
+## Total Documentation Stats
+
+**Current**:
+
+- Completed files: 13 (including deployment guide)
+- Comprehensive coverage: ~65% complete
+
+**Target (when all 20 sections complete)**:
+
+- Total files: 20
+- Comprehensive coverage: 100%
+
+**Estimated completion time**:
+
+- Remaining sections: 7
+- Time per section: 1-2 hours writing
+- Total time remaining: 7-14 hours
+
+## Usage Notes
+
+1. **Start with Index**: Always begin with `00-complete-user-guide-index.md` for navigation
+2. **Follow Order**: Sections build on each other - follow numerical order for first-time users
+3. **Use Cross-References**: Links between sections provide context - follow them liberally
+4. **Keep Example Consistent**: All guides use same TechGadgets example - maintain consistency
+5. **Adapt to Your Needs**: Replace TechGadgets with your company, but keep structure
+6. **No Skipping Sections**: Even if familiar, skim sections - may contain critical details
+
+## Maintenance
+
+**When updating guides**:
+
+- Update all cross-references if section names change
+- Maintain same level of detail across all sections
+- Keep TechGadgets example consistent
+- Update line counts in this file
+- Mark completion status changes
+- Update total stats
+
+**Version**: 1.1
+**Last Updated**: 2024-11-06
+**Status**: In Progress (65% complete)

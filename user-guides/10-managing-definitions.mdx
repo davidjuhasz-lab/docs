@@ -1,0 +1,65 @@
+---
+title: "10 - Managing Definitions"
+description: "This guide provides a comprehensive overview of the UI for creating and managing custom terminology for your agents."
+---
+
+# 10 - Managing Definitions
+
+This guide provides a comprehensive overview of the UI for creating and managing custom terminology for your agents.
+
+---
+
+## Part 1: The Definitions Page
+
+### Navigation and Layout
+
+- **Path**: Navigate to **Application → Agents → Definitions** tab.
+- **Header**: The page has a title, "**Definitions**".
+- **Primary Action**: At the top right is the **"Create Definition"** button.
+
+| UI Element                   | Icon   | Description                               |
+| :--------------------------- | :----- | :---------------------------------------- |
+| **Create Definition** button | `Plus` | Opens a modal to create a new definition. |
+
+---
+
+## Part 2: Creating a Definition
+
+### The `Create definition` Modal
+
+- **Action**: Click the **"Create Definition"** button.
+- **Result**: A modal opens with the title "**Create definition**".
+
+| Field           | UI Element | Description                                                                 |
+| :-------------- | :--------- | :-------------------------------------------------------------------------- |
+| **Agent ID**    | Dropdown   | Select the agent this definition will belong to.                            |
+| **Term**        | Text Input | The word or phrase the agent will recognize (must be unique for the agent). |
+| **Description** | Text Area  | The full explanation the agent will use for the term.                       |
+
+### Modal Actions
+
+- **Cancel**: A button that closes the modal and discards the new definition.
+- **Finish**: The primary button to save the definition.
+
+---
+
+## Part 3: Managing Definitions
+
+### The Definitions Table
+
+- **Columns**: The table displays `Agent ID`, `Term`, `Description`, and `Updated At`.
+- **Search**: A search bar above the table allows filtering by any field.
+- **Filter**: A dropdown allows filtering definitions by a specific `Agent ID`.
+- **Actions**: Each row has two action buttons:
+
+| Action     | Icon     | Behavior                                                                         |
+| :--------- | :------- | :------------------------------------------------------------------------------- |
+| **Edit**   | `Pencil` | Opens the "**Edit definition**" modal, pre-filled with the definition's details. |
+| **Delete** | `Trash`  | Opens a confirmation dialog before permanently deleting the definition.          |
+
+---
+
+## Part 4: Important Considerations
+
+- **Performance and Cost**: When the "Use Definitions" feature is enabled for an agent, **all** of that agent's definitions are added to the system prompt for **every single message** sent to it. This can increase token usage and costs.
+- **Best Practice**: Use definitions sparingly for a small number of critical, high-value terms or acronyms. For broader knowledge, it is more efficient to upload documents into the knowledge base.

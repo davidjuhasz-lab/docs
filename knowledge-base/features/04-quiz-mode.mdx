@@ -1,0 +1,68 @@
+---
+title: "Quiz Mode"
+description: "Quiz Mode is a feature available for assistant agents that transforms a standard conversational interaction into an interactive learning and assessment session. When enabled, the agent can dynamica..."
+---
+
+# Quiz Mode
+
+Quiz Mode is a feature available for `assistant` agents that transforms a standard conversational interaction into an interactive learning and assessment session. When enabled, the agent can dynamically generate questions based on the conversation and the knowledge it has retrieved.
+
+## Technical Implementation
+
+Quiz Mode is not a separate agent schema but rather a complex configuration and prompt-chaining sequence built on top of the `assistant` agent. Its implementation relies on a series of LLM calls that are orchestrated by the backend when certain triggers are met.
+
+### Enabling Quiz Mode
+
+Quiz Mode is activated via the **"Use Quiz Mode"** switch in the agent's "Specifications" settings. Enabling this reveals a new "Quiz" tab in the agent configuration modal, where the behavior is defined.
+
+### The Question Generation Process
+
+When Quiz Mode is active, the backend can be triggered to generate a set of questions for the user. Unlike a dynamic process that analyzes the live conversation, this generation is based on a pre-configured set of topics.
+
+1.  **Topic and Type Selection**: The system takes the list of **Topics** defined in the agent's Quiz Mode configuration. It then creates a uniform distribution of the enabled **Question Types** (e.g., `multiple-choice`, `fill-in-the-blank`) to decide how many of each type to generate.
+2.  **Prompt Construction**: For each question to be generated, a dedicated prompt is constructed. This prompt is dynamically generated and includes:
+
+    - A randomly selected **topic** from the configured list.
+    - The specific **question generation prompt** for the chosen question type (also from the agent's configuration).
+    - Instructions on the desired output format, which is typically a structured JSON object.
+
+    **Example Prompt Snippet (for Multiple Choice):**
+
+    ```
+    System:
+    <Topics>
+      Retrieval-Augmented Generation
+    </Topics>
+    ---
+    User:
+    Generate a multiple-choice question based on the provided topics.
+    The question must be in JSON format with "question", "options" (an array of 4 strings), and "correctAnswer" keys.
+    ```
+
+3.  **LLM Call for Generation**: This prompt is sent to the configured LLM. The model may use the provided `retrieveKnowledgeTool` to search the knowledge base for information about the topic before generating the question in the specified JSON format.
+4.  **Question Delivery**: The backend parses the JSON and presents the question to the user in the chat interface.
+
+### The Answer Evaluation Process
+
+When the user submits an answer, a similar process occurs for evaluation:
+
+1.  **Evaluation Prompt**: A new prompt is sent to the LLM. This prompt includes:
+    - The original question.
+    - The correct answer (as determined during generation).
+    - The user's submitted answer.
+    - An instruction to evaluate whether the user's answer is correct and to provide a brief explanation.
+2.  **LLM Call for Evaluation**: The LLM compares the answers and provides a JSON output indicating correctness and a natural language explanation.
+3.  **Feedback Delivery**: The backend delivers this feedback to the user.
+
+## Configuration Options
+
+The technical behavior of Quiz Mode is controlled by the settings in the "Quiz" tab:
+
+- **Quiz Mode Enabled**: The master switch.
+- **Questions Per Day**: An integer that sets a daily limit on how many questions the agent will generate for a single user.
+- **Topics**: A list of topics to focus the quiz questions. Questions are generated based on these predefined topics.
+- **Used Question Types**: The types of questions enabled for generation (e.g., `multiple-choice`, `fill-in-the-blank`).
+- **Additional System Prompt**: Optional high-level instructions that apply to all question generation.
+- **Evaluation System Prompt**: Instructions on how to evaluate a user's answers and provide feedback.
+- **Enable Parallel Generation**: When enabled, the system generates multiple questions in advance to speed up the user experience.
+- **Question Type Prompts**: For each question type, there is a dedicated text area. The content of this text area is the core prompt used for generating questions of that type. This allows for fine-grained control over the difficulty, style, and phrasing of each question format. Modifying these prompts is the primary way to customize the quiz behavior.

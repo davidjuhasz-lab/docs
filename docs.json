@@ -66,6 +66,108 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "User Guides",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "user-guides/00-complete-user-guide-index",
+              "user-guides/01-creating-application",
+              "user-guides/02-creating-assistant-agent",
+              "user-guides/03-uploading-documents"
+            ]
+          },
+          {
+            "group": "Agent Management",
+            "pages": [
+              "user-guides/04-document-processing-agents",
+              "user-guides/05-educational-agents",
+              "user-guides/06-testing-agents",
+              "user-guides/07-managing-agent-versions"
+            ]
+          },
+          {
+            "group": "Features & Configuration",
+            "pages": [
+              "user-guides/08-managing-conversations",
+              "user-guides/09-viewing-metrics",
+              "user-guides/10-managing-definitions",
+              "user-guides/11-quiz-mode-setup",
+              "user-guides/12-agent-reporting"
+            ]
+          },
+          {
+            "group": "Integration & Deployment",
+            "pages": [
+              "user-guides/13-embedding-widget",
+              "user-guides/14-managing-api-access",
+              "user-guides/17-google-drive-integration",
+              "user-guides/20-deployment-guide"
+            ]
+          },
+          {
+            "group": "Administration",
+            "pages": [
+              "user-guides/15-user-management",
+              "user-guides/16-monitoring-costs",
+              "user-guides/18-test-sets-evaluation",
+              "user-guides/19-bulk-operations"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Knowledge Base",
+        "groups": [
+          {
+            "group": "Introduction",
+            "pages": [
+              "knowledge-base/introduction/01-what-is-peak-rag",
+              "knowledge-base/introduction/02-core-concepts"
+            ]
+          },
+          {
+            "group": "Platform Architecture",
+            "pages": [
+              "knowledge-base/platform-architecture/01-system-overview",
+              "knowledge-base/platform-architecture/02-rag-pipeline-in-depth"
+            ]
+          },
+          {
+            "group": "AI Concepts",
+            "pages": [
+              "knowledge-base/ai-concepts/01-how-llms-work",
+              "knowledge-base/ai-concepts/02-prompt-engineering-guide",
+              "knowledge-base/ai-concepts/03-understanding-embeddings"
+            ]
+          },
+          {
+            "group": "Features",
+            "pages": [
+              "knowledge-base/features/01-agents-deep-dive",
+              "knowledge-base/features/02-knowledge-retrieval",
+              "knowledge-base/features/03-document-processing",
+              "knowledge-base/features/04-quiz-mode",
+              "knowledge-base/features/05-definitions-feature"
+            ]
+          },
+          {
+            "group": "Integration",
+            "pages": [
+              "knowledge-base/integration/01-api-access",
+              "knowledge-base/integration/02-web-widget"
+            ]
+          },
+          {
+            "group": "Administration",
+            "pages": [
+              "knowledge-base/administration/01-cost-monitoring",
+              "knowledge-base/administration/02-user-management"
+            ]
+          }
+        ]
       }
     ],
     "global": {

@@ -1,0 +1,52 @@
+---
+title: "20 - Bulk Operations"
+description: "This guide provides a comprehensive overview of the UI for performing bulk operations on documents."
+---
+
+# 20 - Bulk Operations
+
+This guide provides a comprehensive overview of the UI for performing bulk operations on documents.
+
+---
+
+## Part 1: Supported Bulk Operations
+
+Currently, bulk operations are only available for **documents**.
+
+- **Supported Actions**: You can bulk **upload**, bulk **edit metadata**, and bulk **delete** multiple documents at once.
+- **Unsupported Actions**: There is no functionality for bulk exporting, re-vectorizing, or downloading documents.
+
+---
+
+## Part 2: How to Use Bulk Operations
+
+### Step 1: Navigate to the Documents Page
+
+- **Path**: Go to **Application → Documents** from the left sidebar.
+- **View**: The page displays a table of all uploaded documents.
+
+### Step 2: Activate Bulk Action Mode
+
+1.  **Select Documents**: Click the checkbox next to one or more documents in the table.
+2.  **UI Change**: As soon as you select at least one document, the table header changes to show the number of items selected and the available bulk action buttons.
+
+### Step 3: Perform a Bulk Action
+
+Once bulk action mode is active, the following buttons appear in the table header:
+
+| Button         | Icon     | Action                                                                                                      |
+| :------------- | :------- | :---------------------------------------------------------------------------------------------------------- |
+| **(Deselect)** | `X`      | A button showing the number of selected items (e.g., "3 selected"). Click the `X` to deselect all and exit. |
+| **Edit**       | `Pencil` | Opens the **"Edit multiple document details"** modal for the selected documents.                            |
+| **Delete**     | `Trash`  | Opens a confirmation dialog to permanently delete the selected documents.                                   |
+
+### Step 4: Bulk Editing Document Details
+
+When you click the **"Edit"** button, the **"Edit multiple document details"** modal appears.
+
+| Field                     | UI Element  | Description                                                                                                                                         |
+| :------------------------ | :---------- | :-------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Vectorization Config.** | Dropdown    | Choose a vectorization configuration to apply to all selected documents. The options are `CHUNK_ONLY` or `CHUNK_AND_VECTORIZE`.                     |
+| **Metadata**              | JSON Editor | Add or edit metadata in JSON format. This metadata will be applied to all selected documents, overwriting any existing metadata with the same keys. |
+
+Click **"Save"** to apply the changes or **"Cancel"** to close the modal.

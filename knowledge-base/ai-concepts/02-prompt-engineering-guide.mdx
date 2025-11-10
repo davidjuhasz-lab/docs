@@ -1,0 +1,100 @@
+---
+title: "Prompt Engineering Guide"
+description: "The System Prompt is the single most powerful tool you have for controlling an agent's behavior. It is the master set of instructions the agent consults for every single interaction. Effective prom..."
+---
+
+# Prompt Engineering Guide
+
+The **System Prompt** is the single most powerful tool you have for controlling an agent's behavior. It is the master set of instructions the agent consults for every single interaction. Effective prompt engineering is the key to creating a reliable, accurate, and safe AI agent.
+
+## The Role of the System Prompt in RAG
+
+In a Retrieval-Augmented Generation (RAG) system like Peak RAG, the system prompt's role is slightly different from that of a general-purpose chatbot. Its primary job is **not** to provide the agent with knowledge, but to instruct it on **how to use the knowledge that is retrieved**.
+
+The final prompt sent to the LLM is a combination of three things:
+
+1.  **Your System Prompt**: The overall instructions.
+2.  **Retrieved Context**: The factual data chunks retrieved from your documents.
+3.  **The User's Query**: The immediate question to be answered.
+
+Your system prompt must guide the LLM on how to synthesize these pieces of information into a good response.
+
+## Best Practices for System Prompts
+
+### 1. Be Specific and Explicit
+
+Vague instructions lead to vague or unpredictable behavior. The more specific your instructions, the more reliable the agent will be.
+
+- **Weak**: "You are a customer support bot."
+- **Strong**: "You are the Peak RAG Customer Support Assistant. Your sole purpose is to answer user questions about the features and functionality of the Peak RAG platform. Your tone should be professional, helpful, and concise."
+
+### 2. Define the Agent's Persona
+
+Clearly define the character the agent should adopt. This includes its role, tone of voice, and personality.
+
+- **Role**: What is its job? (e.g., "a technical expert," "a friendly onboarding guide," "a strict policy checker").
+- **Tone**: How should it sound? (e.g., "formal," "conversational," "technical," "empathetic").
+- **Personality**: Does it have any specific character traits? (e.g., "patient," "enthusiastic," "cautious").
+
+### 3. Set Strict Boundaries (Guardrails)
+
+This is the most critical part of a RAG system prompt. You must instruct the agent on what to do and, more importantly, what **not** to do.
+
+- **Grounding Instruction**: The most important rule. Always include a phrase like:
+
+  > "You MUST base your answers exclusively on the provided context. If the information is not in the context, you MUST state that you do not have that information. Do not use any external knowledge."
+
+- **Refusal Instructions**: Tell the agent how to handle out-of-scope questions.
+
+  > "If the user asks about anything other than Peak RAG, politely decline to answer and remind them of your purpose."
+
+- **Safety Instructions**: Prohibit harmful, unethical, or inappropriate content.
+  > "Do not engage in discussions about personal opinions, politics, or sensitive topics. Avoid making promises or guarantees."
+
+### 4. Structure Your Prompt for Clarity
+
+Use formatting like headings, bullet points, or XML tags to structure your prompt. This helps the LLM better understand and adhere to the different parts of your instructions.
+
+**Example using Markdown:**
+
+```markdown
+# Role
+
+You are a Compliance Bot for financial regulations.
+
+# Tone
+
+Your tone is formal, precise, and authoritative.
+
+# Rules
+
+- You must only answer questions related to the provided regulatory documents.
+- Cite the specific document and section number that supports your answer.
+- If the answer is not in the documents, state: "Based on the provided documents, that information is not available."
+```
+
+### 5. Provide Examples (Few-Shot Prompting)
+
+You can include a few examples of good interactions directly in the prompt. This can be very effective for guiding the agent's output format or tone.
+
+**Example:**
+
+```
+Here are some examples of how to respond:
+
+User: "How do I create an agent?"
+Assistant: "You can create an agent by navigating to the 'Agents' page and clicking the 'Create Agent' button. This is detailed in section 2.1 of the User Guide."
+
+User: "What is the weather today?"
+Assistant: "I cannot provide information about the weather. My purpose is to answer questions about the Peak RAG platform."
+```
+
+### 6. Iterate and Test
+
+Your first prompt will not be your last. The key to a great prompt is continuous testing and refinement.
+
+- Use the **"Preview"** mode extensively.
+- Create **Test Sets** with challenging questions and edge cases.
+- Review conversation **Threads** to see where the agent is failing.
+- Refine your prompt based on these observations. Small changes to wording can have a big impact.
+

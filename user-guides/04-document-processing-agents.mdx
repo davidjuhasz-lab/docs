@@ -1,0 +1,77 @@
+---
+title: "04 - Creating Document Processing Agents"
+description: "This guide provides a comprehensive walkthrough of creating specialized agents for automating document workflows, detailing every UI element for each agent type."
+---
+
+# 04 - Creating Document Processing Agents
+
+This guide provides a comprehensive walkthrough of creating specialized agents for automating document workflows, detailing every UI element for each agent type.
+
+---
+
+## The Agent Creation Process
+
+All document processing agents are created using the same multi-step modal as Assistant agents.
+
+1.  **Navigate to Agents**: Go to the **Agents** page from your application dashboard.
+2.  **Launch Modal**: Click the **"Create Agent"** button.
+3.  **Select Schema**: In the "Basic details" section, choose the appropriate schema for the agent you want to create. This choice determines which configuration fields appear in the "Specifications" section.
+
+---
+
+## 1. Document OCR Agent (`document-ocr`)
+
+This agent converts scanned images and PDFs into searchable text.
+
+| Field                        | UI Element   | Description                                                                               |
+| :--------------------------- | :----------- | :---------------------------------------------------------------------------------------- |
+| **System Prompt**            | Text Area    | A prompt to guide the OCR process (e.g., `Extract all text from the provided document.`). |
+| **LLM Model (OCR Engine)**   | Dropdown     | The AI model for OCR. `gpt-4o` provides the highest accuracy.                             |
+| **DPI (Dots Per Inch)**      | Number Input | The resolution for scanning. `300` is a standard default.                                 |
+| **Use Document Cleaning**    | Switch       | If enabled, an AI will clean up and format the extracted text.                            |
+| **Document Cleaning Prompt** | Text Area    | (Appears if "Use Document Cleaning" is on) A prompt to guide the cleaning process.        |
+| **Timeout in milliseconds**  | Number Input | The maximum processing time (e.g., `60000` for 60 seconds).                               |
+| **Signature Detection Mode** | Switch       | Enable to detect signatures in the document.                                              |
+
+---
+
+## 2. Document Type Recognizer (`document-type-recognizer`)
+
+This agent identifies a document's type and extracts data based on a JSON schema you define.
+
+| Field                            | UI Element     | Description                                                                            |
+| :------------------------------- | :------------- | :------------------------------------------------------------------------------------- |
+| **System Prompt**                | Text Area      | A prompt to guide the classification process.                                          |
+| **LLM Model**                    | Dropdown       | The model for the main classification task.                                            |
+| **Temperature**                  | Number Input   | Controls randomness. Use low values (e.g., `0.2`) for consistent classification.       |
+| **Top P**                        | Number Input   | An alternative to Temperature for controlling randomness.                              |
+| **Grouping System Prompt**       | Text Area      | A prompt for grouping multiple documents of the same type.                             |
+| **Grouping LLM Model**           | Dropdown       | The model to use for the grouping task.                                                |
+| **Document Type Configurations** | JSON Text Area | **Core setting**: Define the document types and data fields to extract in JSON format. |
+| **Timeout in milliseconds**      | Number Input   | The maximum processing time for the recognition task.                                  |
+
+---
+
+## 3. Document Evaluation Agent (`document-evaluation`)
+
+This agent evaluates structured JSON data against complex business rules defined in a prompt.
+
+| Field                       | UI Element   | Description                                                                  |
+| :-------------------------- | :----------- | :--------------------------------------------------------------------------- |
+| **System Prompt**           | Text Area    | The main prompt defining the business logic to be evaluated.                 |
+| **Field Evaluation Prompt** | Text Area    | A more specific prompt for evaluating individual fields if needed.           |
+| **LLM Model**               | Dropdown     | The AI model for the evaluation (`gpt-4o` is recommended for complex logic). |
+| **Timeout in milliseconds** | Number Input | The maximum processing time for the evaluation.                              |
+
+---
+
+## 4. Document Crosscheck Agent (`document-crosscheck`)
+
+This agent validates data against other data points within the same document or from external sources.
+
+| Field                       | UI Element   | Description                                                               |
+| :-------------------------- | :----------- | :------------------------------------------------------------------------ |
+| **System Prompt**           | Text Area    | A prompt defining the cross-checking logic.                               |
+| **Crosscheck Prompt**       | Text Area    | A more specific prompt for complex cross-checking scenarios.              |
+| **LLM Model**               | Dropdown     | The AI model for the cross-check (`gpt-4o` is recommended for reasoning). |
+| **Timeout in milliseconds** | Number Input | The maximum processing time for the cross-check.                          |

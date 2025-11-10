@@ -1,0 +1,102 @@
+---
+title: "Agents: A Technical Deep-Dive"
+description: "In the Peak RAG platform, an Agent is the primary computational entity responsible for executing tasks. It's more than just a prompt; it's a configurable object that binds a Large Language Model (L..."
+---
+
+# Agents: A Technical Deep-Dive
+
+In the Peak RAG platform, an Agent is the primary computational entity responsible for executing tasks. It's more than just a prompt; it's a configurable object that binds a Large Language Model (LLM) to a specific task schema, a set of tools, and a persistent configuration.
+
+## Agent Architecture: The Schema System
+
+The most critical architectural concept for agents is the **Schema**. An agent's schema, selected upon creation, defines its fundamental purpose and behavior. It dictates:
+
+1.  **The Backend Logic**: Which services and controllers in the `apps/api` backend will handle the agent's requests.
+2.  **The Configuration Options**: The specific set of fields that appear in the UI for configuring the agent (e.g., an `assistant` agent has a "Welcome Message" field, while a `document-evaluation` agent does not).
+3.  **The Core Task Loop**: The fundamental sequence of operations the agent will perform.
+
+This schema-driven design allows the platform to be highly extensible while ensuring that each agent type is optimized for its specific function.
+
+## The Lifecycle of an Agent Request
+
+When a user interacts with an agent, a standard lifecycle is executed by the backend:
+
+1.  **Request Reception**: The API gateway receives a request, typically containing an `agentId`, a `threadId` (for existing conversations), and the user's input.
+2.  **Authentication & Authorization**: The system verifies the user's credentials and ensures they have permission to access the specified application and agent.
+3.  **Agent & Thread Loading**: The agent's configuration and the conversation thread's history are loaded from the PostgreSQL database.
+4.  **Schema-Specific Execution**: The request is routed to the logic handler corresponding to the agent's schema. This is where the different agent types diverge.
+5.  **Response Generation**: The schema handler executes its specific task (e.g., running the RAG pipeline) and generates a response.
+6.  **State Persistence**: The new user message and the agent's response are saved to the conversation thread in the database.
+7.  **Response Streaming**: The final response is streamed back to the client.
+
+## A Breakdown of Key Agent Schemas
+
+### `assistant`
+
+This is the most versatile and common schema, designed for conversational AI and knowledge retrieval.
+
+- **Core Function**: To answer user questions by augmenting an LLM with context retrieved from the application's knowledge base.
+- **Execution Flow**:
+  1.  Initiates the **RAG Pipeline** (see _Platform Architecture / The RAG Pipeline In-Depth_).
+  2.  Uses tools like **Knowledge Retrieval** and **Web Search** to gather context.
+  3.  Constructs a detailed system prompt including persona, rules, retrieved context, and conversation history.
+  4.  Sends the final augmented prompt to the selected LLM for synthesis.
+- **Use Case**: Customer support bots, internal knowledge base Q&A, interactive help guides.
+
+### `document-type-recognizer`
+
+A specialized agent for classifying documents.
+
+- **Core Function**: To analyze a document and determine its type based on a predefined set of categories.
+- **Execution Flow**:
+  1.  Receives a document ID as input.
+  2.  Extracts the full text content of the document.
+  3.  The text is passed to an LLM along with a prompt that asks it to classify the document based on a user-provided JSON schema of possible document types.
+  4.  The LLM returns a structured JSON object with the classification.
+- **Use Case**: Automatically sorting a batch of uploaded documents (e.g., distinguishing between an "Invoice", a "Contract", and a "Resume").
+
+### `document-evaluation`
+
+A powerful agent for structured data extraction and validation.
+
+- **Core Function**: To extract specific data points from a document and validate them against a set of rules.
+- **Execution Flow**:
+  1.  Receives a document ID and a "schema" of fields to extract (defined by the user).
+  2.  Extracts the document's text.
+  3.  It constructs a prompt instructing the LLM to act as a data extractor, finding and populating the fields defined in the user's schema based on the document's content.
+  4.  The LLM's structured output is then optionally passed to a "validation" step, where another LLM call can check the extracted data against business rules (e.g., "Is the `endDate` after the `startDate`?").
+- **Use Case**: Processing application forms, extracting data from invoices, ensuring contracts contain required clauses.
+
+### `edu-syllabus` & `edu-personalization`
+
+Agents designed for educational content generation.
+
+- **Core Function**: To generate structured educational content based on source materials in the knowledge base.
+- **Execution Flow**: These agents typically perform a broad retrieval over the knowledge base to get a sense of the available topics. They then use a sophisticated, multi-step prompting chain to:
+  1.  **`edu-syllabus`**: Brainstorm a curriculum, organize it into modules and lessons, and generate descriptions for each.
+  2.  **`edu-personalization`**: Rewrite or summarize a specific piece of content to match a user's learning level or preferences.
+- **Use Case**: Corporate training platforms, online course creation, personalized tutoring systems.
+
+### `document-ocr`
+
+- **Core Function**: To perform Optical Character Recognition (OCR) on image-based documents.
+- **Execution Flow**: Wraps a specialized OCR engine. It takes a document ID, sends the document to the OCR service, and stores the extracted raw text, making it available for other agents.
+- **Use Case**: Digitizing scanned PDFs, images of text, or handwritten notes.
+
+### `document-crosscheck`
+
+- **Core Function**: To validate the consistency of information across multiple documents.
+- **Execution Flow**: Takes two or more document IDs as input. It extracts the text from all documents and uses an LLM to compare specific fields (e.g., "Is the name on the ID the same as the name on the bill?").
+- **Use Case**: Fraud detection, identity verification, ensuring consistency in application packages.
+
+### `invoice-categorization`
+
+- **Core Function**: To analyze an invoice to identify the issuing company and categorize the expense.
+- **Execution Flow**: Uses an LLM with a specialized prompt to extract key invoice details (vendor, date, total) and then classify the expense based on a predefined set of categories.
+- **Use Case**: Automating accounts payable and bookkeeping tasks.
+
+### `document-bulk-validation`
+
+- **Core Function**: To process a set of documents together, respecting dependencies between them.
+- **Execution Flow**: Manages a workflow where the validation of one document depends on the successful validation of another. It orchestrates the execution of other document agents in the correct order.
+- **Use Case**: Processing complex loan applications where an income statement must be validated before a loan agreement can be checked.

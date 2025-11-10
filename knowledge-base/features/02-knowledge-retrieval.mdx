@@ -1,0 +1,78 @@
+---
+title: "Knowledge Retrieval Tool"
+description: "The Knowledge Retrieval tool is the primary mechanism that connects your assistant agent to its dedicated knowledge base. When enabled, it allows the agent to perform advanced searches over your ve..."
+---
+
+# Knowledge Retrieval Tool
+
+The Knowledge Retrieval tool is the primary mechanism that connects your `assistant` agent to its dedicated knowledge base. When enabled, it allows the agent to perform advanced searches over your vectorized documents to find contextually relevant information for answering user queries.
+
+This document details the configurable parameters of this tool, which allow you to fine-tune the balance between retrieval speed, cost, and quality.
+
+## How it Works
+
+The Knowledge Retrieval tool is an implementation of the **Retrieval** phase of the RAG pipeline. At a high level, when the agent determines it needs information to answer a query, it invokes this tool. The tool then executes the following steps:
+
+1.  **Embeds the user's query**.
+2.  **Performs a hybrid search** in Weaviate.
+3.  **Optionally reranks** the search results.
+4.  **Returns the top N chunks** of text to the agent to be used as context.
+
+The following parameters, configured in the "Tools" section of the agent setup, allow you to control this process.
+
+## Configurable Parameters
+
+### 1. `Result Limit`
+
+- **What it is**: An integer that defines the maximum number of text chunks that will be passed to the LLM as context.
+- **Technical Impact**: This directly controls the size of the "context window" in the final prompt sent to the LLM.
+- **Trade-offs**:
+  - **Higher Value**: Provides the LLM with more information, which can lead to more comprehensive and accurate answers. However, it significantly increases the number of tokens used per request, leading to higher costs and potentially slower generation times. It can also introduce noise if less relevant chunks are included.
+  - **Lower Value**: Reduces cost and can increase speed. However, it might not provide enough context for the LLM to answer complex questions, leading to "I don't know" responses or incomplete answers.
+- **Default/Recommended**: `10`
+
+### 2. `Search Limit`
+
+- **What it is**: An integer that defines how many initial candidate chunks are retrieved from the vector database _before_ the reranking step.
+- **Technical Impact**: This parameter sets the size of the initial candidate pool for the reranker. It must be greater than or equal to the `Result Limit`.
+- **Trade-offs**:
+  - **Higher Value**: Gives the reranker a wider selection of documents to choose from, potentially finding more relevant but lower-ranked initial results. This can improve quality at the cost of slightly higher latency during the retrieval step.
+  - **Lower Value**: Speeds up the retrieval/reranking process but might miss relevant documents that were not in the top initial results from the hybrid search.
+- **Default/Recommended**: `20`
+
+### 3. `Use Rerank`
+
+- **What it is**: A boolean switch to enable or disable the reranking step.
+- **Technical Impact**: When `true`, the `Search Limit` number of chunks retrieved from Weaviate are passed to a more powerful cross-encoder model. This model re-calculates the relevance of each chunk to the query and re-sorts them. The final `Result Limit` number of chunks are then selected from this re-sorted list. **Note**: In the current implementation, reranking is only applied when using `vector-only` search, not `hybrid-search`.
+- **Trade-offs**:
+  - **Enabled**: Significantly improves the quality of retrieved context by eliminating "near miss" semantic matches and promoting truly relevant results. This is highly recommended for accuracy. However, it introduces additional latency (typically 200-500ms) and cost to each query.
+  - **Disabled**: Faster and cheaper retrieval, but the quality of the context is entirely dependent on the initial hybrid search. This can be acceptable for simpler use cases or very clean knowledge bases.
+- **Default/Recommended**: `true`
+
+### 4. `Hybrid Search`
+
+- **What it is**: A dropdown to control how vector (semantic) search and keyword (BM25) search are combined.
+- **Technical Impact**: This controls how Weaviate combines the scores from vector and keyword searches. The `always-hybrid` option uses a **Relative Score Fusion** algorithm to balance the results.
+- **Options**:
+  - `always-hybrid`: Balances keyword and vector search. This is the recommended default.
+  - `vector-only`: Disables keyword search. Relies purely on semantic meaning. Reranking can be used with this option.
+  - `keyword-only`: Disables vector search. Behaves like a traditional keyword search engine.
+- **Default/Recommended**: `always-hybrid`
+
+### 5. `Max Vector Distance`
+
+- **What it is**: A float number (range: 0-2) that acts as a relevance threshold for the initial vector search.
+- **Technical Impact**: This is a cutoff filter. Any document chunk whose vector distance from the query vector is greater than this value will be discarded, even if it's within the `Search Limit`. A lower value means a stricter relevance requirement.
+- **Trade-offs**:
+  - **Lower Value** (e.g., `0.5`): Can filter out irrelevant noise, ensuring only highly relevant documents are considered. However, if set too low, it may filter out all results for niche queries.
+  - **Higher Value** (e.g., `1.5`): A more lenient search that allows for more tangentially related documents to be included.
+- **Default/Recommended**: `1.5`
+
+### 6. `Auto Limit`
+
+- **What it is**: An integer parameter that limits results to groups of similar distances or scores.
+- **Technical Impact**: The auto limit parameter (Weaviate's `autoLimit`) identifies "jumps" or discontinuities in the result metrics (such as vector distance or search score) and only returns results up to the specified number of jumps. For example, if you set `autoLimit=1`, Weaviate will return all results in the first group before a significant jump in distance or score occurs.
+- **Trade-offs**:
+  - **Lower Value** (e.g., `1`): Returns only the most cohesive group of results, ensuring high relevance but potentially missing some useful information.
+  - **Higher Value** (e.g., `3`): Includes more groups separated by noticeable jumps in similarity or relevance, providing broader coverage at the cost of potentially including less relevant results.
+- **Default/Recommended**: `1-2` depending on your use case

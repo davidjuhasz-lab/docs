@@ -1,0 +1,102 @@
+---
+title: "06 - Testing Your Agents"
+description: "This guide provides a comprehensive overview of the agent testing UIs, covering every element for both interactive testing and automated Test Sets."
+---
+
+# 06 - Testing Your Agents
+
+This guide provides a comprehensive overview of the agent testing UIs, covering every element for both interactive testing and automated Test Sets.
+
+---
+
+## Part 1: Interactive Test Chat
+
+This interface is for real-time, conversational testing to get an immediate feel for your agent's performance.
+
+### Navigation
+
+1.  From the **Agents** page, click on the agent you want to test.
+2.  Click the **Test** tab.
+
+### Page Layout
+
+The page has a two-column layout:
+
+- **Left Column**: The configuration panel.
+- **Right Column**: The live preview of the chat widget.
+
+### Header
+
+- **Back Button**: An `ArrowLeft` icon that takes you back to the main Agents list.
+- **Title**: "**Configure agent**".
+- **Subtitle**: "**Set up and manage AI agents**".
+
+### Configuration Panel (Left Column)
+
+This panel has a tabbed interface for customizing the chat widget's appearance and behavior.
+
+- **Tabs**:
+
+  - **Labels**: For changing the text displayed in the widget (e.g., `Header`, `Welcome Message`).
+  - **Colors**: For changing the widget's theme colors (e.g., `Primary Color`, `User Message Color`).
+  - **Config**: For adjusting widget behavior (e.g., `Initial Height`, `auto-focus`).
+  - **Preview**: Shows a live JSON preview of the configuration object.
+
+- **Configurations Title**: The area below the tabs is titled "**Configurations**".
+
+### Preview Panel (Right Column)
+
+- **Title**: "**Preview**".
+- **Content**: Contains the live, interactive `AssistantPreview` component, which reflects the changes from the configuration panel in real-time.
+
+### Page Footer Actions
+
+At the bottom of the page are several action buttons:
+
+- **Download reports**: Downloads a ZIP file of agent reports.
+- **Reset weekly questions**: (Appears if Quiz Mode is on) Resets the quiz questions.
+- **Publish changes**: Saves the widget configuration changes.
+
+---
+
+## Part 2: Automated Testing with Test Sets
+
+This feature is for creating a standardized suite of tests that you can run repeatedly.
+
+### Navigation and Layout
+
+The Test Sets UI is located on the main **Agents** page, below the agent list.
+
+- **Title**: "**Agent Management**".
+- **Subtitle**: "**Set up and manage Test sets**".
+- **Tabs**:
+  - **Test Sets**: Lists all created test sets, grouped by agent.
+  - **History**: Lists all previous test runs and their results.
+- **Create Test set button**: Navigates to the test set creation page.
+
+### The `Test Sets` Tab
+
+- Each agent with a test set is listed.
+- For each test set, there are three action buttons:
+  - **Edit**: Opens the test set editor.
+  - **Run**: Executes the test set. The button changes to "**Running...**" with a spinner.
+  - **Delete**: Permanently deletes the test set.
+
+### The `History` Tab
+
+- This tab lists all previous test runs, including those currently in progress.
+- Each test run is a collapsible row that, when expanded, shows the detailed results for each question.
+- See the "Test Sets and Evaluation" guide for a full breakdown of the results view.
+
+### The Test Set Creation Page
+
+- **Title**: "**Create new Test set**".
+- **Fields**:
+  - **Select Agent**: Dropdown to choose the agent to test.
+  - **Test Set name**: Text input for the name of the suite.
+- **Questions Section**:
+  - **Add question**: Adds a new blank question card.
+  - **Import**: Allows uploading a JSON file of questions.
+- **Action Buttons**:
+  - **Cancel**: Discards changes.
+  - **Save Test set**: Saves the new test set.

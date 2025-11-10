@@ -1,0 +1,43 @@
+---
+title: "User Management"
+description: "User management in Peak RAG is designed to integrate with modern identity providers (IdPs) and provides a role-based access control (RBAC) system to manage permissions within the platform."
+---
+
+# User Management
+
+User management in Peak RAG is designed to integrate with modern identity providers (IdPs) and provides a role-based access control (RBAC) system to manage permissions within the platform.
+
+## Authentication Flow
+
+The platform does **not** manage user credentials (usernames/passwords) directly. Instead, it delegates authentication to an external IdP, such as **Keycloak** or **Azure Entra ID**. The frontend is built with NextAuth.js, which orchestrates the authentication flow.
+
+1.  A user attempts to access the admin dashboard.
+2.  NextAuth.js middleware intercepts the request and redirects the user to the configured IdP's login page.
+3.  The user authenticates with their standard corporate credentials.
+4.  Upon successful authentication, the IdP redirects the user back to the application with an authentication token (usually a JWT).
+5.  NextAuth.js validates the token and creates a session for the user.
+6.  The first time a user logs in, a corresponding user record is created in the platform's PostgreSQL database. This record stores the user's email, name, and their Peak RAG role, but **not** their password.
+
+## Role-Based Access Control (RBAC)
+
+Peak RAG uses a simple but effective RBAC system with two primary roles stored in the `User` table in the database:
+
+### `ADMIN`
+
+- **Permissions**: Administrators have system-wide, unrestricted access.
+- **Capabilities**:
+  - Can create, view, edit, and delete **any** Application.
+  - Can manage users, including inviting new users and changing their roles.
+  - Can access and configure system-level settings.
+- **Assignment**: The `ADMIN` role must be granted directly in the database or by another administrator through the user management interface. It is a highly privileged role that should be assigned sparingly.
+
+### `BACKOFFICE`
+
+- **Permissions**: Backoffice users have limited access, scoped only to the Applications they have been explicitly granted access to.
+- **Capabilities**:
+  - Can only view and access Applications to which they are assigned.
+  - Within an assigned Application, they can create and configure agents, upload documents, and view conversations and metrics.
+  - They **cannot** create new Applications or manage users.
+- **Assignment**: This is the default role for new users. An `ADMIN` must assign a `BACKOFFICE` user to one or more Applications via the user management dashboard. The relationship between users and the applications they can access is managed through a join table in the database.
+
+This RBAC model ensures that regular users can work effectively within their designated projects without having access to sensitive information or settings in other parts of the organization.

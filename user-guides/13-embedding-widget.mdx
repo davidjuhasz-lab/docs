@@ -1,0 +1,253 @@
+---
+title: "Embedding the Web Widget - Developer Guide"
+description: "This guide provides technical instructions for developers on how to manually embed the AI assistant web widget into a website."
+---
+
+# Embedding the Web Widget - Developer Guide
+
+This guide provides technical instructions for developers on how to manually embed the AI assistant web widget into a website.
+
+---
+
+## Implementation Status Note
+
+**Important**: There is currently **no user interface** within the admin dashboard for generating the widget's code snippet or for configuring its options. The `AssistantPreview` feature within the admin panel uses this widget, but the functionality to configure and export it for public use is not exposed.
+
+## This guide is intended for developers who will be manually writing the JavaScript code to integrate the widget.
+
+## Purpose
+
+The Web Widget allows you to integrate your AI assistant directly into any website as an embeddable chat interface, allowing users to interact with your agent without leaving your site.
+
+---
+
+## Part 1: Finding the Script URL
+
+The first step is to get the URL for the widget's main JavaScript file. This file is a build artifact of the `web-sdk` project. After the `web-sdk` has been built and deployed, you will have a URL for the `peak-rag-assistant.js` file.
+
+- **For local development**: This might be `http://localhost:5173/peak-rag-assistant.js` (depending on the port).
+- **For production**: This will be the URL where you host the built `web-sdk` assets, e.g., `https://your-cdn.com/peak-rag-assistant.js`.
+
+---
+
+## Part 2: Basic Integration
+
+### Step 1: Add the Script Tag to Your HTML
+
+Place the following script tag just before the closing `</body>` tag of your HTML page. This ensures the page content loads before the widget script.
+
+```html
+<script src="https://your-cdn.com/peak-rag-assistant.js"></script>
+```
+
+Loading this script will make the global `PeakRAG` object available in your page's JavaScript context.
+
+### Step 2: Initialize the Widget
+
+After the script tag, add another `<script>` block to call the `PeakRAG.initAssistant()` function. This function creates the widget and attaches it to your page.
+
+The `initAssistant` function takes a single configuration object as its argument.
+
+```html
+<!-- This div is only needed for the embedded mode, not for the floating button mode -->
+<div id="peak-assistant-container"></div>
+
+<script src="https://your-cdn.com/peak-rag-assistant.js"></script>
+<script>
+  // It's a good practice to wait for the DOM to be fully loaded
+  document.addEventListener("DOMContentLoaded", function () {
+  PeakRAG.initAssistant({
+      // Required parameters
+      applicationId: "your-application-id",
+    agentId: "your-agent-id",
+      user: "a-unique-user-id", // e.g., "user-12345" or an email address
+
+      // Use this for embedding directly into a page element
+      containerId: "peak-assistant-container",
+
+      // ... or use the 'fixedToBottom' config for a floating button (see below)
+    });
+  });
+</script>
+```
+
+---
+
+## Part 3: `initAssistant` Parameters
+
+### Required Top-Level Parameters
+
+| Parameter       | Type   | Description                                                                                                |
+| --------------- | ------ | ---------------------------------------------------------------------------------------------------------- |
+| `applicationId` | String | **Required.** The ID of the application this agent belongs to.                                             |
+| `agentId`       | String | **Required.** The ID of the agent that will handle the conversations.                                      |
+| `user`          | String | **Required.** A unique identifier for the end-user. This is crucial for tracking conversation history.     |
+| `containerId`   | String | **Required if not using `fixedToBottom` mode.** The `id` of the HTML element where the widget will render. |
+| `threadId`      | String | _Optional._ An existing thread ID to resume a previous conversation. See "Thread Management" below.        |
+
+### The `config` Object
+
+This object contains all the settings for the widget's appearance and behavior.
+
+**`config.fixedToBottom` (Object)**
+
+- If this object is present, the widget will render as a floating button in the bottom-right corner of the screen.
+- If it is omitted, you must provide a `containerId` for the widget to be embedded directly into the page.
+- **Keys**:
+  - `icon` (String): URL for the icon on the floating button.
+  - `title` (String): Text to display on the button.
+  - `subtitle` (String): Secondary text on the button.
+  - `headerColor` (String): Background color of the button.
+  - `titleColor` (String): Color of the title text.
+  - `subtitleColor` (String): Color of the subtitle text.
+  - `desktopWidth` (String): The width of the chat window when opened (e.g., `"400px"`).
+
+**Other `config` settings**:
+
+| Key                  | Type    | Default   | Description                                                                        |
+| -------------------- | ------- | --------- | ---------------------------------------------------------------------------------- |
+| `showHeader`         | Boolean | `true`    | Toggles the visibility of the widget's header.                                     |
+| `showLegalNotice`    | Boolean | `false`   | Toggles a legal disclaimer at the bottom of the chat.                              |
+| `showSources`        | Boolean | `true`    | Toggles the visibility of document citations in agent responses.                   |
+| `height`             | String  | `"600px"` | The height of the widget (CSS value). Ignored in `fixedToBottom` mode.             |
+| `width`              | String  | `"400px"` | The width of the widget (CSS value). Ignored in `fixedToBottom` mode.              |
+| `border`             | String  | `null`    | A CSS border string (e.g., `"1px solid #ccc"`).                                    |
+| `autoFocus`          | Boolean | `false`   | Automatically focuses the text input when the widget loads.                        |
+| `feedbackEnabled`    | Boolean | `true`    | Toggles the thumbs up/down feedback buttons on agent messages.                     |
+| `externalContext`    | String  | `null`    | A string of context to provide to the agent (e.g., "User is on the pricing page"). |
+| `suggestedQuestions` | Object  | `{...}`   | An object to style the suggested question buttons (see details below).             |
+
+**`config.suggestedQuestions` Object**:
+
+- `color` (String): Text color.
+- `hoverColor` (String): Text color on hover.
+- `backgroundColor` (String): Button background color.
+- `hoverBackgroundColor` (String): Button background on hover.
+- `useExternalContext` (Boolean): If `true`, the `externalContext` string will be used to help generate more relevant suggested questions.
+
+### The `labels` Object
+
+This object allows you to customize all the user-visible text in the widget.
+
+| Key                     | Description                                                                  |
+| ----------------------- | ---------------------------------------------------------------------------- |
+| `name`                  | The agent's name in the header. Overrides the default.                       |
+| `description`           | The subtitle in the header.                                                  |
+| `placeholder`           | The placeholder text for the message input field.                            |
+| `loading`               | Text shown while the agent is "thinking" (e.g., "Thinking...").              |
+| `error`                 | The error message shown to the user if something goes wrong.                 |
+| `legalNotice`           | The text of the disclaimer shown when `showLegalNotice` is `true`.           |
+| `userId`                | The prompt shown in the modal if the `user` parameter is not provided.       |
+| `userIdInvalidError`    | The error message for the user ID modal if `userIdRegexp` is used and fails. |
+| ... _(and many others)_ |                                                                              |
+
+### The `colors` Object
+
+This object allows you to theme the widget to match your website's branding. All values are CSS color strings.
+
+| Key                | Description                                              |
+| ------------------ | -------------------------------------------------------- |
+| `primary`          | The main brand color for buttons, links, and highlights. |
+| `background`       | The main background color of the widget.                 |
+| `text`             | The primary text color.                                  |
+| `link`             | The color for links and citations.                       |
+| `muted`            | The color for secondary text, like timestamps.           |
+| ... _(and others)_ |                                                          |
+
+---
+
+## Part 4: Advanced Features
+
+### Thread Management
+
+You can persist conversations across user sessions by saving the `threadId`.
+
+1.  **Get the `threadId`**: Use the `onThreadCreated` callback to capture the ID of a new conversation.
+```javascript
+    PeakRAG.initAssistant({
+      // ... your other config
+onThreadCreated: (threadId) => {
+        // Save this ID to localStorage or your backend
+        localStorage.setItem("userChatThreadId", threadId);
+      },
+    });
+    ```
+2.  **Resume the thread**: When initializing the widget on a subsequent visit, pass the saved ID.
+
+```javascript
+    const savedThreadId = localStorage.getItem("userChatThreadId");
+
+PeakRAG.initAssistant({
+      // ... your other config
+      threadId: savedThreadId || null,
+});
+```
+
+### Unmounting the Widget
+
+If you need to remove the widget from the page (e.g., in a single-page application when the user navigates to a new view), you can call the `unmount` function.
+
+```javascript
+PeakRAG.unmount();
+```
+
+---
+
+## Part 5: Complete Example (Fixed-to-Bottom Mode)
+
+This example shows a common configuration for a floating chat widget.
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Website</title>
+  </head>
+  <body>
+    <!-- Your website content -->
+
+    <script src="https://your-cdn.com/peak-rag-assistant.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Function to get a unique ID for the user
+        function getUserId() {
+          let userId = localStorage.getItem("myAppUserId");
+          if (!userId) {
+            userId = "guest_" + Date.now() + Math.random();
+            localStorage.setItem("myAppUserId", userId);
+          }
+          return userId;
+        }
+
+      PeakRAG.initAssistant({
+        applicationId: "techgadgets-support",
+        agentId: "support-assistant",
+          user: getUserId(),
+
+        config: {
+            fixedToBottom: {
+              icon: "https://yoursite.com/images/chat-icon.svg",
+              title: "Have a question?",
+              subtitle: "Ask our AI assistant",
+              headerColor: "#0052cc",
+              titleColor: "#ffffff",
+            },
+          feedbackEnabled: true,
+            showLegalNotice: true,
+          },
+
+          labels: {
+            placeholder: "Ask about our products or services...",
+            legalNotice: "This is an AI assistant. Responses may not always be accurate.",
+          },
+
+        colors: {
+            primary: "#0052cc",
+            background: "#f4f5f7",
+        },
+        });
+      });
+    </script>
+  </body>
+</html>
+```

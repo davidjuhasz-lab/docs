@@ -1,0 +1,49 @@
+---
+title: "12 - Agent Reporting and Notifications"
+description: "This guide provides a comprehensive overview of the UI for configuring automated email summaries and Slack notifications for your agents."
+---
+
+# 12 - Agent Reporting and Notifications
+
+This guide provides a comprehensive overview of the UI for configuring automated email summaries and Slack notifications for your agents.
+
+---
+
+## Part 1: How to Configure Reporting
+
+Agent Reporting is an optional feature for `assistant` agents, configured within the "Specifications" settings.
+
+### Enabling Reporting
+
+1.  **Open the Agent Modal** and select the **`assistant`** schema.
+2.  Navigate to the **"Specifications"** section.
+3.  Turn on the **"Use Reporting"** switch.
+
+### Email Reporting Configuration
+
+| Field                              | UI Element       | Description                                                                      |
+| :--------------------------------- | :--------------- | :------------------------------------------------------------------------------- |
+| **Reporting Interval**             | Dropdown         | The schedule for when reports are sent (`daily`, `weekly`, etc.).                |
+| **Reporting fields**               | Multi-Select     | The data points to include in the email (e.g., `threadId`, `messageContent`).    |
+| **Reporting Email Subject Prefix** | Text Input       | A custom prefix for the email subject line (e.g., `[Support Bot Weekly]`).       |
+| **Reporting Email Content**        | Text Area        | A custom message to include at the top of the email report.                      |
+| **Reporting Email Recipients**     | Text Input Array | The list of email addresses to receive the report. Press `Enter` after each one. |
+
+---
+
+## Part 2: How to Configure Slack Integration
+
+In the same "Specifications" section, you can configure your agent to send notifications to a Slack channel.
+
+### Enabling Slack Integration
+
+1.  Turn on the **"Use Slack Integration"** switch.
+
+### Slack Configuration Fields
+
+| Field                    | UI Element | Description                                                     |
+| :----------------------- | :--------- | :-------------------------------------------------------------- |
+| **Slack Signing Secret** | Text Input | The signing secret from your Slack App configuration.           |
+| **Slack Channel ID**     | Text Input | The ID of the channel where the agent will listen for messages. |
+| **Slack Bot ID**         | Text Input | The ID of your Slack bot user.                                  |
+| **Slack Bot Token**      | Text Input | The authentication token for your Slack bot.                    |

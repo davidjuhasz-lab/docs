@@ -1,0 +1,95 @@
+---
+title: "API Access"
+description: "While the Peak RAG platform provides a comprehensive user interface, its core functionalities are also exposed through a secure API, allowing for programmatic integration with other systems and app..."
+---
+
+# API Access
+
+While the Peak RAG platform provides a comprehensive user interface, its core functionalities are also exposed through a secure API, allowing for programmatic integration with other systems and applications.
+
+## Authentication
+
+The API is protected and requires authentication for all requests. The authentication method depends on the type of integration:
+
+### For User-Facing Clients
+
+User-facing applications (web, mobile) use JWT (JSON Web Token) obtained from the configured Identity Provider (e.g., Keycloak, Azure Entra ID). The token must be included in the `Authorization` header:
+
+```http
+Authorization: Bearer <your_jwt_token>
+```
+
+### For Server-to-Server Integration
+
+For backend server integrations, the platform supports **static API keys** for agents. These keys are generated when creating an application and can be used for direct server-to-server communication without requiring OAuth 2.0 flows.
+
+```http
+Authorization: Bearer <your_static_api_key>
+```
+
+**Note**: Static API keys should only be used for server-side integrations and kept secure. Never expose them in client-side code.
+
+## Core API Endpoints
+
+The primary API is a standard RESTful service. The key resources for integration are `threads` and `messages`. All endpoints are prefixed with `/applications/{applicationId}/agents/{agentId}`.
+
+### Starting a New Conversation
+
+To start a new conversation, you first need to create a thread. This will return a `threadId` that you will use for all subsequent messages.
+
+`POST /applications/{applicationId}/agents/{agentId}/threads/thread`
+
+**Request Body:**
+You can optionally provide a `userId`.
+
+```json
+{
+  "userId": "user-external-id-123"
+}
+```
+
+**Response:**
+
+```json
+{
+  "threadId": "thr_abc123"
+}
+```
+
+### Continuing an Existing Conversation
+
+To send a follow-up message, you post to the messages endpoint. The `threadId` must be included as an `X-Thread-Id` header.
+
+`POST /applications/{applicationId}/agents/{agentId}/threads/thread/messages`
+
+**Headers:**
+
+```
+X-Thread-Id: thr_abc123
+```
+
+**Request Body:**
+
+```json
+{
+  "message": "Tell me more about the 'Description' field."
+}
+```
+
+**Response:**
+
+The response is a server-sent event (SSE) stream containing the agent's reply.
+
+```
+data: {"type":"message.chunk","data":{"content":"The description field..."}}
+data: {"type":"message.chunk","data":{"content":" is used to..."}}
+...
+data: {"type":"message.complete","data":{...full message object...}}
+```
+
+## Use Cases for API Integration
+
+- **Custom Frontends**: Build a completely custom user interface for your chatbot or agent instead of using the standard web widget.
+- **Backend Integrations**: Integrate a Peak RAG agent into your existing business logic. For example, an internal support ticket system could call a document agent to automatically analyze an attached log file and summarize the issue.
+- **Workflow Automation**: Use agents as steps in a larger automated workflow. A new customer signup process could trigger a document evaluation agent to validate the user's uploaded ID.
+- **Data Analysis**: Programmatically run a set of questions through an agent and analyze the responses for quality assurance or research purposes.

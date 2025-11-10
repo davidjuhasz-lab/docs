@@ -1,0 +1,60 @@
+---
+title: "14 - Managing API Access (Developer Guide)"
+description: "This guide provides a high-level overview for developers on how to interact with the Peak RAG platform programmatically."
+---
+
+# 14 - Managing API Access (Developer Guide)
+
+This guide provides a high-level overview for developers on how to interact with the Peak RAG platform programmatically.
+
+---
+
+### **Important**: No-UI Feature
+
+There is **no user interface** in the admin dashboard for managing API access. All the concepts described here are for developers building custom integrations.
+
+---
+
+## Part 1: Purpose of the API
+
+The API allows you to integrate Peak RAG's powerful agent and conversation features directly into your own applications, services, and workflows.
+
+**Common use cases include:**
+
+- Building a fully custom chatbot interface for your website or mobile app.
+- Integrating an agent into a backend process (e.g., automatically analyzing a support ticket with a document agent).
+- Creating automated scripts for testing or data analysis.
+
+---
+
+## Part 2: Authentication
+
+To ensure security, all API requests must be authenticated. The authentication method depends on your integration type:
+
+### For User-Facing Applications
+
+- **Mechanism**: The API is protected by **OAuth 2.0**, which is the industry standard for secure authorization.
+- **Implementation**: Your application must request a temporary **Bearer Token** from your organization's Identity Provider (e.g., Keycloak or Azure Entra ID).
+- **Usage**: This token must be sent with every API request in the `Authorization` header.
+
+Developers should refer to the technical documentation in the **Knowledge Base (`Integration / API Access`)** and their Identity Provider's documentation for detailed instructions on how to implement an OAuth 2.0 flow.
+
+### For Server-to-Server Integrations
+
+- **Static API Keys**: For backend server integrations, the platform supports **static API keys** that can be used directly without OAuth 2.0 flows.
+- **Security**: These keys should only be used in server-side code and never exposed in client-side applications or public repositories.
+- **Access**: Static API keys are generated during application creation and can be found in the application settings.
+
+---
+
+## Part 3: General API Flow
+
+While the specific endpoints are detailed in the Knowledge Base, the general process for having a conversation with an agent via the API is as follows:
+
+1.  **Obtain an Authentication Token** from your Identity Provider.
+2.  **Create a Conversation Thread**: Make an initial API call to create a new conversation thread for a specific agent. The API will respond with a unique `threadId`.
+3.  **Send a Message**: Make another API call to send the user's message, including the `threadId` in the request header to specify which conversation it belongs to.
+4.  **Receive a Streamed Response**: The API will stream the agent's response back in real-time, allowing for a "typing" effect in your custom application.
+5.  **Continue the Conversation**: Repeat steps 3 and 4 for each subsequent message in the conversation, always using the same `threadId`.
+
+This workflow allows for persistent, stateful conversations, just like in the web widget.

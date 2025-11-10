@@ -1,0 +1,40 @@
+---
+title: "18 - Google Drive Integration"
+description: "This guide provides a comprehensive overview of the UI for importing documents from Google Drive."
+---
+
+# 18 - Google Drive Integration
+
+This guide provides a comprehensive overview of the UI for importing documents from Google Drive.
+
+---
+
+## Part 1: The File Upload Interface
+
+The Google Drive import functionality is integrated directly into the main file upload widget.
+
+### Navigation and Layout
+
+- **Path**: Navigate to **Application → Documents**.
+- **File Input Widget**: The main upload area contains several icons and links for adding files.
+  - `CloudUpload` icon: Represents the general upload functionality.
+  - `FileText` icon: Represents file-based operations.
+  - **"Click to upload"**: A link to open your computer's file selector.
+
+### Google Drive Actions
+
+Within the text of the upload widget, you will find the Google Drive-specific actions:
+
+| UI Element                          | Icon     | Description                                                                                                                      |
+| :---------------------------------- | :------- | :------------------------------------------------------------------------------------------------------------------------------- |
+| **"select from Google Drive"** link | N/A      | Opens the Google Drive Picker to authorize and select folders for import.                                                        |
+| **"disconnect all folders"** link   | `Unlink` | Removes the application's authorization to access your Google Drive. This action does not delete any already imported documents. |
+
+---
+
+## Part 2: The Import Process
+
+1.  **Action**: Click the **"select from Google Drive"** link.
+2.  **Authorize**: If it's your first time, you will be redirected to a Google sign-in page to grant the application permission to view your files.
+3.  **Select Folders**: The **Google Drive Picker** will open. Select one or more folders to import. The integration will recursively process all files within the selected folders.
+4.  **Upload**: Once you confirm, each file will be individually uploaded and will appear in the upload queue on the Documents page.

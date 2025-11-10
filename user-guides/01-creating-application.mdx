@@ -1,0 +1,245 @@
+---
+title: "Creating an Application"
+description: "Creating a new application is the first step toward building AI-powered assistants for your specific business needs. An application is a workspace that contains your agents, documents, and conversa..."
+---
+
+# Creating an Application
+
+Creating a new application is the first step toward building AI-powered assistants for your specific business needs. An application is a workspace that contains your agents, documents, and conversations organized around a specific purpose.
+
+## User Story: Creating a Customer Support Application
+
+**Scenario**: You're building a customer support system for an online electronics store. You need an application that will house a support agent capable of answering product questions, handling returns, and providing troubleshooting help based on your product documentation.
+
+**Goal**: Create a new application called "Electronics Store Support" that will serve as the workspace for customer service AI agents.
+
+### Step 1: Navigate to Applications
+
+**Action**: From the Peak RAG admin dashboard home page, locate the navigation menu on the left side.
+
+**What to do**: Click on the "Applications" menu item. This opens the applications management page showing all existing applications.
+
+**What you'll see**: A list view of applications (may be empty if this is your first one) with a prominent "Create New Application" or "+ New Application" button.
+
+### Step 2: Start Creating New Application
+
+**Action**: Click the "Create New Application" button (usually located in the top-right corner of the applications page).
+
+**What happens**: A creation form appears, either as a new page or a modal dialog, with several fields to fill out.
+
+### Step 3: Set the Application Identifier
+
+**Field**: Application ID (or Application Identifier)
+
+**What to enter**: `electronics-store-support`
+
+**Why this value**:
+
+- Use lowercase letters only
+- Separate words with hyphens (kebab-case)
+- Keep it descriptive but concise
+- This ID will be used in API calls and URLs
+- Cannot be changed after creation
+
+**Rules**:
+
+- Must be unique across your organization
+- No spaces or special characters except hyphens
+- Typically 2-5 words maximum
+
+### Step 4: Set the Display Name
+
+**Field**: Display Name (or Name)
+
+**What to enter**: `Electronics Store Support`
+
+**Why this value**:
+
+- This is the human-readable name shown throughout the admin interface
+- Use proper capitalization and spacing
+- Should clearly identify the application's purpose
+- Can be changed later if needed
+
+### Step 5: Add a Description
+
+**Field**: Description (usually optional)
+
+**What to enter**: `Customer support application for electronics store. Handles product inquiries, return requests, troubleshooting, and order status questions. Knowledge base includes product manuals, warranty information, and return policies.`
+
+**Why this value**:
+
+- Helps team members understand the application's purpose
+- Documents the intended scope
+- Useful reference when you have multiple applications
+- Can include notes about what types of agents or documents belong here
+
+### Step 6: Configure Document Collection
+
+**Field**: Document Collection Name (or Knowledge Base Collection)
+
+**What to enter**: `electronics_support_docs`
+
+**Why this value**:
+
+- Required if your agents will search through uploaded documents
+- Use underscores for collection names (database convention)
+- Keep it related to the application ID for easy identification
+- This creates a Weaviate vector database collection
+
+**When to skip this**: Only leave empty if you're building an application that uses exclusively document processing agents (OCR, validation) that don't need to search a knowledge base.
+
+**Important**: Collection names cannot be changed after creation without data migration. Choose carefully.
+
+### Step 7: Review Settings
+
+**Action**: Before clicking Create, review all entered information:
+
+- [x] Application ID: `electronics-store-support`
+- [x] Display Name: `Electronics Store Support`
+- [x] Description: Entered and descriptive
+- [x] Document Collection: `electronics_support_docs`
+
+**Check**: Make sure there are no typos in the Application ID since it cannot be changed.
+
+### Step 8: Create the Application
+
+**Action**: Click the "Create" or "Create Application" button (usually at the bottom or top-right of the form).
+
+**What happens immediately**:
+
+1. Form validates all fields
+2. System checks that the Application ID is unique
+3. If validation passes, the application is created
+4. You're redirected to the new application's dashboard
+
+**Behind the scenes**:
+
+- Secure API secret is generated for authentication
+- Document collection infrastructure is provisioned in Weaviate
+- Application database records are created
+- Default permissions are established
+
+### Step 9: Verify Creation
+
+**What you'll see**: The application dashboard page with several sections:
+
+- **Overview tab**: Shows application summary and statistics (currently empty)
+- **Agents tab**: Empty list with "Create New Agent" button
+- **Documents tab**: Empty list with "Upload Documents" button
+- **Threads/Conversations tab**: No conversations yet
+- **Metrics tab**: No data yet
+
+**Top of page shows**:
+
+- Application Display Name: "Electronics Store Support"
+- Application ID: `electronics-store-support`
+- Status indicator: Active (green)
+
+### Step 10: Copy API Credentials (Important)
+
+**Action**: Look for an "API Credentials" or "Settings" section/button.
+
+**What to find**:
+
+- **Application ID**: `electronics-store-support` (you'll need this for API calls)
+- **API Secret**: Long alphanumeric string (click to reveal/copy)
+
+**What to do**:
+
+1. Click the "Show" or eye icon next to API Secret
+2. Click "Copy" to copy the secret to clipboard
+3. Store this securely in your password manager or secure notes
+
+**Why this matters**:
+
+- You'll need these credentials to integrate the application with websites
+- The API secret is shown only once at creation (you can regenerate it but existing integrations will break)
+- Anyone with these credentials can access your application
+
+**Note**: Access management is handled at the platform level by administrators. Only users with admin privileges can create and manage applications.
+
+## Alternative User Story: Document Processing Application
+
+**Scenario**: You're creating an application solely for processing loan application documents - no conversational agent needed.
+
+**Different settings**:
+
+**Field: Application ID**: `loan-document-processor`
+**Field: Display Name**: `Loan Document Processor`
+**Field: Description**: `Automated document validation for loan applications. Processes identity documents, income proofs, and application forms. No knowledge base needed.`
+**Field: Document Collection Name**: _Leave empty_ - not needed since you're not building a conversational agent that searches documents
+
+**Why leave collection empty**: Document processing agents (OCR, validation, type recognition) work directly on uploaded files. They don't need to search through a knowledge base, so no vector database collection is required.
+
+## After Creation: Next Steps
+
+### Immediate Actions Available
+
+1. **Create Your First Agent**
+
+   - Click "Agents" tab
+   - Click "Create New Agent" button
+   - Choose agent type based on your needs (see Creating Agents documentation)
+
+2. **Upload Documents** (if you created a collection)
+
+   - Click "Documents" tab
+   - Click "Upload Documents" button
+   - Select files from your computer
+   - Documents will be processed and added to the knowledge base
+
+3. **Review Application Settings**
+   - Click the Settings or gear icon
+   - Review default configurations
+   - Adjust any settings specific to your use case
+
+### Settings You Can Modify Later
+
+**Changeable**:
+
+- Display Name
+- Description
+- User permissions
+- API Secret (can be regenerated if compromised)
+
+**Not changeable**:
+
+- Application ID
+- Document Collection Name (requires data migration)
+
+## Troubleshooting
+
+**Error: "Application ID already exists"**
+
+- Solution: Choose a different, unique ID
+- Try adding your company name or department: `acme-electronics-support`
+
+**Error: "Invalid collection name"**
+
+- Solution: Use only letters, numbers, and underscores
+- No spaces, hyphens, or special characters in collection names
+
+**Can't find the created application**
+
+- Check: Make sure you're not filtered to show only archived applications
+- Check: Verify you have permission to view the application
+- Action: Use the search box to search by name
+
+**API Secret not showing**
+
+- Solution: Navigate to Settings > API Credentials
+- Action: Click "Regenerate Secret" if you lost the original
+- Warning: Regenerating breaks existing integrations until updated
+
+## Planning Checklist
+
+Before creating an application, have these details ready:
+
+- [ ] Clear purpose statement (what will this application do?)
+- [ ] Application ID decided (kebab-case, descriptive)
+- [ ] Display name decided (human-readable)
+- [ ] Know whether you need a document collection (do agents search documents?)
+- [ ] Collection name decided if needed (snake_case, descriptive)
+- [ ] List of team members who need access
+- [ ] Understanding of what agents you'll create first
+- [ ] Documents ready to upload (if applicable)

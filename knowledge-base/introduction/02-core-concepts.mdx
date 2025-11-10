@@ -1,0 +1,53 @@
+---
+title: "Core Concepts"
+description: "The Peak RAG platform is built around a few fundamental entities. Understanding their roles and relationships is key to designing and implementing effective AI solutions."
+---
+
+# Core Concepts
+
+The Peak RAG platform is built around a few fundamental entities. Understanding their roles and relationships is key to designing and implementing effective AI solutions.
+
+## 1. Application
+
+An **Application** is the top-level container for a specific AI use case or project. It acts as a security and data boundary, isolating all a project's resources.
+
+- **Technical Role**: An Application serves as a logical workspace. All resources, including agents, documents, and user access, are scoped to a single application. This multi-tenant design ensures data cannot leak between different projects or departments.
+- **Key Attributes**:
+  - `applicationId`: A unique identifier generated from the application name.
+  - **Document Collection**: Each application has a dedicated vector collection in Weaviate, serving as its private knowledge base.
+  - **User Access**: Users are granted access on a per-application basis.
+
+## 2. Agent
+
+An **Agent** is a specialized AI entity designed to perform a specific task. It combines an LLM with a configuration, a specific prompt, and a set of tools to execute its function.
+
+- **Technical Role**: An agent is the primary execution unit. When a request is made, the system routes it to a specific agent, which then orchestrates the RAG pipeline, tool usage, and final response generation.
+- **Key Attributes**:
+  - `agentId`: A unique identifier, used to invoke the agent via API or SDK.
+  - **Schema**: The agent's type, which defines its core behavior and available configuration options (e.g., `assistant`, `document-evaluation`). This is a critical architectural constraint that determines which backend services and logic are used.
+  - **System Prompt**: The master instruction set that defines the agent's personality, goals, and constraints.
+  - **LLM Configuration**: The specific language model, temperature, and other parameters the agent will use.
+  - **Tool Configuration**: The set of tools (e.g., Knowledge Retrieval, Web Search) the agent is allowed to use.
+
+## 3. Document & Vector Collection
+
+A **Document** represents a single piece of information uploaded to the system (e.g., a PDF, TXT, or DOCX file). The **Vector Collection** is the indexed, machine-readable representation of all documents in an application.
+
+- **Technical Role**: Documents are the raw source material. During ingestion, they are passed through a pipeline that chunks them into smaller segments. Each chunk is then converted into a numerical vector (an embedding) by an embedding model. These vectors are stored in a Weaviate vector collection.
+- **Process Flow**:
+  1.  **Ingestion**: A document is uploaded.
+  2.  **Chunking**: The document is split into smaller, semantically coherent text chunks.
+  3.  **Embedding**: Each chunk is passed through an embedding model (e.g., OpenAI `text-embedding-3-small`) to create a vector.
+  4.  **Indexing**: The vector and its corresponding text chunk are stored in the application's dedicated vector collection for efficient similarity search.
+
+This collection forms the "Retrieval" part of RAG, allowing agents to find relevant information to augment their responses.
+
+## 4. Thread
+
+A **Thread** is a persistent record of a conversation between a user and an agent.
+
+- **Technical Role**: A thread maintains the state of an interaction, including the full message history. When a user sends a new message in an existing thread, the history is passed to the agent, providing crucial context for generating a coherent, multi-turn response.
+- **Key Attributes**:
+  - `threadId`: A unique identifier for the conversation.
+  - **Message History**: A chronological log of user queries and agent responses.
+  - **User and Agent Association**: Links the thread to the specific user and agent involved.

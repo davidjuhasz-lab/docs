@@ -1,0 +1,56 @@
+---
+title: "19 - Test Sets and Evaluation"
+description: "This guide provides a comprehensive overview of the UI for creating, running, and evaluating automated agent test sets."
+---
+
+# 19 - Test Sets and Evaluation
+
+This guide provides a comprehensive overview of the UI for creating, running, and evaluating automated agent test sets.
+
+---
+
+## Part 1: Creating a Test Set
+
+(This process is covered in detail in the "Testing Your Agents" guide. This guide focuses on the evaluation of results.)
+
+---
+
+## Part 2: Evaluating Test Results
+
+The **"History"** tab on the **Agents** page lists all previous test runs.
+
+### Test Run Summary Row
+
+Each test run is displayed in a summary row that shows:
+
+- The **Test Set Name**.
+- **Agent Tested**: An icon and the agent's display name.
+- **Question Count**: An icon and the number of questions in the test set.
+- **Last Run**: A timestamp of when the test was executed. For tests in progress, this shows a spinner and "In progress".
+- **Acceptance Rate**: A percentage with a color-coded `CircleCheckBig` (pass) or `CircleX` (fail) icon.
+- **Export Button**: An `ArrowUpFromLine` icon to export the results.
+- **Delete Button**: A `Trash` icon to delete the test run.
+
+### Expanded Test Run View
+
+- **Action**: Click on a test run row to expand it.
+- **Result**: The view expands to show a detailed breakdown of each question.
+
+#### Filtering and Actions
+
+- **Filter**: A dropdown to filter questions by `Show All`, `Accepted`, or `Rejected`.
+- **Search**: A search bar to find specific questions.
+- **Select all**: A button to select all questions in the current view.
+- **Rerun selected**: A button to re-run only the selected questions.
+
+#### Question-by-Question Results
+
+Each question is displayed in a card with its own expand button (`ChevronDown`).
+
+- **Collapsed View**: Shows the question and a radio button for selection.
+- **Expanded View**: Shows:
+  - The **Question**.
+  - The **Expected Answer**.
+  - The **Actual Answer** from the agent.
+  - The **Retrieved Contexts** used by the agent.
+  - A **Metrics** table with automated scores for `context_precision`, `faithfulness`, `answer_relevancy`, etc., each with a color-coded score.

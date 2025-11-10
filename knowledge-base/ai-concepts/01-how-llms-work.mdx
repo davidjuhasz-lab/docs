@@ -1,0 +1,39 @@
+---
+title: "How Large Language Models (LLMs) Work"
+description: "A Large Language Model (LLM) is the core reasoning engine inside every Peak RAG agent. Understanding the fundamentals of how they operate is essential for configuring them effectively."
+---
+
+# How Large Language Models (LLMs) Work
+
+A Large Language Model (LLM) is the core reasoning engine inside every Peak RAG agent. Understanding the fundamentals of how they operate is essential for configuring them effectively.
+
+## What is an LLM?
+
+At its core, an LLM is a deep learning model trained on a vast dataset of text and code. Its primary function is to **predict the next most probable word** in a sequence. It does this over and over again to generate sentences, paragraphs, and complete documents.
+
+Think of it as an extremely sophisticated autocomplete. When you provide it with a "prompt" (an input text), the model uses complex statistical patterns learned during its training to predict what word should come next, then the word after that, and so on, until it has generated a full response.
+
+## Key Characteristics
+
+1.  **Massive Scale**: The "Large" in LLM refers to two things:
+
+    - **Training Data**: They are trained on internet-scale text data, encompassing billions of web pages, books, articles, and more.
+    - **Model Size**: The models themselves contain billions of parameters, which are the internal variables the model uses to make predictions.
+
+2.  **Generalization**: Because of their vast training data, LLMs are not limited to a single task. They can perform a wide range of natural language tasks, such as translation, summarization, question answering, and code generation, often without explicit training for each specific task. This is known as "in-context learning."
+
+3.  **Probabilistic Nature**: LLMs do not "know" or "understand" in the human sense. They operate on probabilities. When asked a question, an LLM calculates the most likely sequence of words that would form a plausible answer based on the patterns it has learned. This is why their output can sometimes be unpredictable or even factually incorrect ("hallucinations").
+
+## How They Are Used in Peak RAG
+
+In the Peak RAG platform, the LLM is not the primary source of information. Instead, it acts as a **reasoning and synthesis engine**.
+
+The RAG pipeline (Retrieval-Augmented Generation) first retrieves relevant information from your private documents. This retrieved text is then passed to the LLM as **context** within a carefully constructed prompt.
+
+The LLM's job is to:
+
+- **Read and understand** the user's query.
+- **Read and understand** the factual context retrieved from your documents.
+- **Synthesize** an answer that directly addresses the user's query but is **based solely on the provided context**.
+
+This approach constrains the LLM, forcing it to act as a skilled "reader" of your data rather than a general-purpose "knower." This dramatically improves factual accuracy and relevance, making the LLM a safe and powerful tool for enterprise use cases.

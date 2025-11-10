@@ -1,0 +1,130 @@
+---
+title: "03 - Uploading and Managing Documents"
+description: "This guide provides step-by-step instructions for uploading documents to your knowledge base and managing their configuration."
+---
+
+# 03 - Uploading and Managing Documents
+
+This guide provides step-by-step instructions for uploading documents to your knowledge base and managing their configuration.
+
+## User Story: Building a Product Support Knowledge Base
+
+**Scenario**: You need to upload product manuals, FAQs, and policy documents for your "TechGadgets Support Bot" so it can answer customer questions accurately.
+
+**Goal**: Upload all 25 support documents and configure them so the agent can provide the best possible answers.
+
+---
+
+## Part 1: Uploading Your Files
+
+### Step 1: Navigate to the Documents Page
+
+**Starting Point**: You're in your "techgadgets-support" application dashboard.
+
+**Action**: Click "**Documents**" in the application's left navigation menu.
+
+**What you'll see**: The main documents page, which has the title "**Documents**" and the subtitle "**Upload and vectorize your documents.**" The page is divided into two main areas: a file upload section at the top and a table for "Uploaded documents" below.
+
+### Step 2: Select and Upload Files
+
+**Action**: In the file upload area at the top of the page, either drag and drop your files or click inside the box to open your computer's file selector. You can select multiple files at once.
+
+**Supported Formats**: PDF, DOCX, XLSX, MD
+
+**What happens**:
+
+- As you add files, they will appear in a queue below the upload box.
+- Each item in the queue shows the file's name, size, and a status icon.
+- Uploading begins immediately. You will see a spinning loader icon (`IN_PROGRESS`).
+- When an upload is successful, the icon changes to a green checkmark (`SUCCESS`).
+- If an upload fails, it will show a red 'X' icon (`FAILED`).
+
+**After upload is complete**: The file will automatically appear in the "**Uploaded documents**" table below with a status of "in_progress" or "success".
+
+---
+
+## Part 2: Configuring Document Properties
+
+After documents are uploaded, you can configure them individually or in a batch.
+
+### Step 3: Edit a Document's Details
+
+**Action**:
+
+1.  In the "**Uploaded documents**" table, find the document you want to configure.
+2.  Click the **Edit icon** (a pencil) in that document's row.
+
+**What you'll see**: A modal window titled "**Edit document details**" with the available configuration options.
+
+### Step 4: Choose Vectorization Configuration
+
+- **Field Label**: `Vectorization Configuration`
+- **Dropdown Options**:
+  - `Simple Chunking`: Divides the document into chunks of a fixed size. Best for structured documents.
+  - `Semantic Chunking`: Divides the document based on semantic meaning, keeping related sentences together. Recommended for most use cases.
+- **What to select**: `Semantic Chunking` provides better context for the AI, leading to more accurate answers.
+
+### Step 5: Add Metadata (Optional)
+
+Metadata helps organize your documents with custom key-value tags.
+
+- **Action**: Click the "**Add metadata**" button.
+- **Fields**: Two new input fields will appear, labeled "**Key**" and "**Value**".
+- **Example**: For a policy document, you could enter:
+  - **Key**: `Category`
+  - **Value**: `Policy`
+
+### Step 6: Save Changes
+
+**Action**: Click the "**Finish**" button in the modal.
+
+**What happens**: The document's properties are updated. The new settings will be used when the document is processed (vectorized).
+
+---
+
+## Part 3: The Documents Table
+
+Below the upload area is the main table for managing your documents.
+
+### Header and Actions
+
+- **Title**: The table is titled "**Uploaded documents**".
+- **Subtitle**: Below the title, it says "**List of added documents**".
+- **Primary Actions**: On the top right, there are several key buttons:
+  - **Edit document details**: Becomes active when you select documents in the table. Used for bulk editing.
+  - **Start vectorization**: Kicks off the process of indexing your documents for the AI.
+  - **Delete Vector Collection**: (Admins only) A destructive action that deletes the entire vectorized knowledge base for the application.
+
+### Table Columns and Content
+
+The table itself displays the following information for each document:
+
+| Column         | Description                                                                                            |
+| :------------- | :----------------------------------------------------------------------------------------------------- |
+| **Name**       | The filename of the document.                                                                          |
+| **Status**     | The current processing state (`in_progress`, `success`, `failed`).                                     |
+| **Updated At** | The timestamp of the last modification.                                                                |
+| **Actions**    | A set of buttons for individual document management, including **Edit**, **Download**, and **Delete**. |
+
+---
+
+## Part 4: Processing Documents (Vectorization)
+
+For your agent to search the documents, they must be vectorized.
+
+- **Action**: Click the "**Start vectorization**" button.
+- **What happens**:
+  - The system begins processing all un-processed documents.
+  - The status for these documents will change to "**in_progress**" with a spinning icon.
+  - The button will be disabled while processing is active.
+  - The table automatically refreshes to show the latest status.
+
+---
+
+## Part 5: Batch Editing Documents
+
+- **Action**:
+  1.  Select the checkboxes for the documents you want to edit.
+  2.  Click the now-active "**Edit document details**" button.
+  3.  In the modal, you can apply **Vectorization Configuration** and **Metadata** changes to all selected documents at once.
+  4.  Click **"Save"** to apply the changes.
