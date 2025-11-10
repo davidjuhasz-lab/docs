@@ -71,49 +71,29 @@
         "tab": "User Guides",
         "groups": [
           {
-            "group": "Getting Started",
+            "group": "User Guides",
             "pages": [
               "user-guides/00-complete-user-guide-index",
               "user-guides/01-creating-application",
               "user-guides/02-creating-assistant-agent",
-              "user-guides/03-uploading-documents"
-            ]
-          },
-          {
-            "group": "Agent Management",
-            "pages": [
+              "user-guides/03-uploading-documents",
               "user-guides/04-document-processing-agents",
               "user-guides/05-educational-agents",
               "user-guides/06-testing-agents",
-              "user-guides/07-managing-agent-versions"
-            ]
-          },
-          {
-            "group": "Features & Configuration",
-            "pages": [
+              "user-guides/07-managing-agent-versions",
               "user-guides/08-managing-conversations",
               "user-guides/09-viewing-metrics",
               "user-guides/10-managing-definitions",
               "user-guides/11-quiz-mode-setup",
-              "user-guides/12-agent-reporting"
-            ]
-          },
-          {
-            "group": "Integration & Deployment",
-            "pages": [
+              "user-guides/12-agent-reporting",
               "user-guides/13-embedding-widget",
               "user-guides/14-managing-api-access",
-              "user-guides/17-google-drive-integration",
-              "user-guides/20-deployment-guide"
-            ]
-          },
-          {
-            "group": "Administration",
-            "pages": [
               "user-guides/15-user-management",
               "user-guides/16-monitoring-costs",
+              "user-guides/17-google-drive-integration",
               "user-guides/18-test-sets-evaluation",
-              "user-guides/19-bulk-operations"
+              "user-guides/19-bulk-operations",
+              "user-guides/20-deployment-guide"
             ]
           }
         ]
